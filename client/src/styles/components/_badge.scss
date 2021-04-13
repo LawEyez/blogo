@@ -1,0 +1,40 @@
+.badge {
+    padding: .5rem;
+    border-radius: 3rem;
+
+    .icon {
+        font-size: 2rem;
+        color: $swatch_1;
+    }
+
+    &-img {
+        position: relative;
+        width: 4rem;
+        height: 4rem;
+        border: solid 2px $swatch_2;
+        border-radius: 100%;
+        text-align: center;
+        overflow: hidden;
+
+        i {
+            @include abs-center;
+            font-size: 1.5rem;
+        }
+
+        img {
+            @include abs-center;
+            width: 100%;
+            height: 100%;
+            border-radius: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &-txt {
+        color: $swatch_1;
+        font-weight: 300;
+        text-transform: capitalize;
+        font-size: 1.2rem;
+    }
+
+}

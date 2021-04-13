@@ -6,8 +6,9 @@ export default {
     jwt_expiration: 3000,
     environment: 'dev',
     permissionLevels: {
-        'ADMIN': 0,
+        'ADMIN': 4101,
         'NORMAL_USER': 1,
-        'PAID_USER': 2
-    }
+        'PAID_USER': 5
+    },
+    MONGO_URI:'mongodb+srv://allen2020:Afordia2020@allen.fuafk.mongodb.net/blogo?retryWrites=true&w=majority'
 }

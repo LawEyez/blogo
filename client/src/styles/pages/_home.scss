@@ -1,0 +1,119 @@
+.home {
+    position: relative;
+}
+
+.home-cta {
+    position: relative;
+    width: 100%;
+    padding: 5rem 3rem;
+    border-radius: 5rem;
+    background-color: $swatch_4;
+    margin: 3rem 0;
+
+    @media screen and (max-width: $mobile-md) {
+        padding: 4rem 2rem;
+        margin: 1.5rem 0;
+    }
+
+    h1 {
+        text-align: center;
+        color: $swatch_6;
+        font-size: 3rem;
+        width: 60%;
+
+        @media screen and (max-width: $tablet-lg) {
+            width: 100%;
+            font-size: 2.5rem;
+        }
+
+        @media screen and (max-width: $mobile-md) {
+            font-size: 2rem;
+        }
+    }
+
+    p {
+        font-size: 1.4rem;
+        color: $swatch_1;
+        font-weight: 300;
+        text-align: center;
+
+        @media screen and (max-width: $mobile-md) {
+            font-size: 1.2rem;
+        }
+    }
+}
+
+.home-section {
+    margin: 10rem 0;
+
+    @media screen and (max-width: $mobile-md) {
+        margin: 4rem 0;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .swiper-slide {
+        width: max-content;
+    }
+
+    .swiper-scrollbar {
+        margin-top: 3rem;
+    }
+}
+
+.cat {
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; 
+}
+
+.cat-txt {
+    display: inline-block;
+    overflow: hidden;
+    text-align: center;
+    transition: all .3s ease;
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        mix-blend-mode: difference;
+
+        transition: all .3s ease;
+    }
+
+    &::before {
+        top: 0;
+        background-color: rgba($swatch_6, 1);
+        width: 40%;
+        height: 0;
+        right: 0;
+    }
+
+    &::after {
+        top: 50%;
+        background-color: rgba($swatch_6, 1);
+        transform: translateY(-50%);
+        height: 100%;
+        width: 0;
+        left: 0;
+    }
+    
+    &:hover {
+        color: $swatch_6;
+
+        &::before {
+            height: 100%;
+        }
+
+        &::after {
+            width: 40%;
+        }
+    } 
+}
+

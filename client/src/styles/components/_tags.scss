@@ -1,0 +1,10 @@
+.tag {
+    display: block;
+    padding: .5rem 1rem;
+    border-radius: 2rem;
+    width: max-content;
+
+    &-red {
+        background-color: rgb(255, 0, 0);
+    }
+}

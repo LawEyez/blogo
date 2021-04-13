@@ -1,0 +1,73 @@
+.card {
+    position: relative;
+    height: 30rem;
+    min-width: 40rem;
+    max-width: max-content;
+    border-radius: 3rem;
+    overflow: hidden;
+
+    @media screen and (max-width: $mobile-md) {
+        min-width: 25rem;
+        height: 25rem;
+    }
+
+
+    .badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        z-index: 1;
+        background-color: rgba($swatch_4, .4);
+        backdrop-filter: blur(2px);
+
+        &-txt {
+            margin: 0 1rem;
+        }
+    }
+
+    &-img {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    &-body {
+        position: absolute;
+        bottom: 0;
+        z-index: 1;
+        min-height: max-content;
+        max-height: 80%;
+        width: 100%;
+        border-radius: 3rem;
+        background-color: rgba($swatch_4, .8);
+        backdrop-filter: blur(2px);
+        padding: 2rem;
+
+        @media screen and (max-width: $mobile-md) {
+            padding: 1.5rem;
+            border-radius: 2rem;
+        }
+
+        h2 {
+            font-size: 2.3rem;
+            color: $swatch_1;
+            text-transform: capitalize;
+            font-weight: 500;
+            margin-top: .5rem;
+            line-height: 140%;
+
+            @media screen and (max-width: $mobile-md) {
+                font-size: 1.8rem;
+            }
+        }
+
+        .btn {
+            padding: 1rem;
+
+            .lnr {
+                font-size: 2rem;
+            }
+        }
+    }
+}

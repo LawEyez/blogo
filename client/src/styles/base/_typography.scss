@@ -1,0 +1,39 @@
+.brand {
+    text-transform: uppercase !important;
+    letter-spacing: 5px;
+    font-family: 'Poppins';
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+
+    @media screen and (max-width: $tablet-sm) {
+        display: none;
+    }
+}
+
+.link {
+    text-decoration: underline;
+
+    &:hover {
+        color: $swatch_6 !important;
+    }
+}
+
+.title {
+    font-size: 2.7rem;
+    margin-bottom: 4rem;
+
+    @media screen and (max-width: $mobile-md) {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+}
+
+.date-txt {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: $swatch_2;
+    text-align: end;
+}
+

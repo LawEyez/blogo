@@ -1,0 +1,45 @@
+.auth {
+    form {
+        @media screen and (max-width: $tablet-md) {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            // background-color: yellow;
+        }
+    }
+
+    .flx {
+        @media screen and (max-width: $tablet-md) {
+            flex-direction: column;
+            margin: 0 0 2rem 0;
+            align-items: center;
+            width: 100%;
+        }
+        
+        &.btn-wrapper {
+            @media screen and (max-width: $mobile-lg) {
+                align-items: center;
+            }
+        }
+
+        .btn {
+            @media screen and (max-width: $tablet-md) {
+                margin: 1.5rem 0;
+            }
+        }
+    }
+
+    .form-group {
+        width: 40rem;
+
+        @media screen and (max-width: $tablet-md) {
+            width: 100%;
+            margin: 0 0 2rem 0;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+    }
+}

@@ -1,0 +1,82 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 10rem;
+    width: 100%;
+    padding: 0 4rem 0 19rem;
+    background: rgba($swatch_5, 1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+
+    @media screen and (max-width: $tablet-sm) {
+        padding: 0 3rem;
+        height: 8rem;
+    }
+
+    @media screen and (max-width: $mobile-lg) {
+        padding: 0 1rem;
+        background: rgba($swatch_5, .2);
+        backdrop-filter: blur(.5rem);
+        border-bottom-right-radius: 3rem;
+        border-bottom-left-radius: 2rem;
+    }
+
+    .logo {
+        margin-left: auto;
+        font-weight: 200;
+
+        @media screen and (max-width: $mobile-lg) {
+            margin: 0 auto;
+        }
+    }
+
+    .badge-txt {
+        @media screen and (max-width: $tablet-lg) {
+            display: none;
+        }
+    }
+
+    .badge {
+        @media screen and (max-width: $mobile-sm) {
+            display: none;
+        }
+    }
+}
+
+.header-nav {
+    margin-right: 4rem;
+
+    @media screen and (max-width: $tablet-lg) {
+        display: none;
+    }
+}
+
+.header-link {
+    font-size: 1.2rem;
+
+    &:not(:last-child) {
+        margin-right: 2rem;
+    }
+
+    i {
+        font-size: 1.5rem;
+        margin-right: .5rem;
+        color: $swatch_6;
+        transition: .3s ease;
+    }
+
+    span {
+        color: $swatch_7;
+        text-transform: capitalize;
+        transition: .3s ease;
+    }
+
+    &:hover {
+        span, i {
+            color: #fff ;
+        }
+    }
+}

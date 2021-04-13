@@ -1,5 +1,5 @@
 import validator from 'validator'
-import isEmpty from './isempty.mjs'
+import { isEmpty } from '../common/global.helper.mjs'
 
 export default data => {
     const errors = {}
@@ -8,7 +8,7 @@ export default data => {
     const lastName = !isEmpty(data.lastName) ? data.lastName : ''
     const email = !isEmpty(data.email) ? data.email : ''
     const password = !isEmpty(data.password) ? data.password : ''
-    const password2 = !isEmpty(data.password) ? data.password2 : ''
+    const passwordConfirm = !isEmpty(data.passwordConfirm) ? data.passwordConfirm : ''
 
     if (validator.isEmpty(firstName)) {
         errors.firstName = 'Your first name is required!'
@@ -30,16 +30,20 @@ export default data => {
         errors.password = 'Password should be at least 5 characters long!'
     }
     
-    if (!validator.equals(password, password2)) {
+    if (!validator.equals(password, passwordConfirm)) {
         errors.password = 'Passwords do not match!'
     }
     
     if (validator.isEmpty(password)) {
         errors.password = 'You must set a password!'
     }
+
+    // if (!validator.isLength(passwordConfirm, { min: 5 })) {
+    //     errors.passwordConfirm = 'Password should be at least 5 characters long!'
+    // }
     
-    if (validator.isEmpty(password2)) {
-        errors.password2 = 'You must confirm your password!'
+    if (validator.isEmpty(passwordConfirm)) {
+        errors.passwordConfirm = 'You must confirm your password!'
     }
 
     return {

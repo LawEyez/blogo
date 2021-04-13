@@ -1,0 +1,66 @@
+
+/******************************* GLOBAL RESETS ***************************************/
+
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    font-size: 62.5%;
+    color: #fff;
+
+    &::-webkit-scrollbar {
+        width: .5rem;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: $swatch_5;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $swatch_2;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: #777;
+}
+
+ul {
+    list-style-type: none;
+}
+
+h1 {
+    // margin: 2rem 0;
+}
+
+.Main {
+    width: 100%;
+    min-height: 100vh;
+    padding: 12rem 4rem 4rem 19rem;
+    background-color: $swatch_5;
+    color: #fff;
+
+    @media screen and (max-width: $tablet-sm) {
+        padding: 10rem 3rem 10rem 3rem;
+    }
+
+    @media screen and (max-width: $mobile-lg) {
+        padding: 10rem 1.2rem 10rem 1.2rem;
+    }
+    
+    @media screen and (max-width: $mobile-sm) {
+        padding: 10rem 1rem;
+    }
+}
+
+.slider {
+    width: 100%;
+    height: 100%;
+}

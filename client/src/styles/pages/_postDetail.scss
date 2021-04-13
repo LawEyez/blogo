@@ -1,0 +1,89 @@
+.post-detail {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+}
+
+.post-header {
+    position: relative;
+    height: 40vh;
+    width: 100%;
+    background-color: $swatch_4;
+    border-radius: 2rem;
+    overflow: hidden;
+    box-shadow: 0 1px 1rem rgba(0,0,0,.1);
+
+    img {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        
+    }
+
+    .social-badge {
+        position: absolute;
+        top: 2rem;
+        left: 0;
+        justify-content: space-between;
+        padding: 0 4rem;
+        width: 100%;
+
+        .lni {
+            font-size: 2rem;
+            color: $swatch_7;
+            transition: .3s ease;
+
+            &:hover {
+                color: $swatch_1;
+            }
+        }
+    }
+
+    &-info {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(to bottom, rgba($swatch_5, 0), rgba($swatch_5, .8));
+
+        .title-date {
+            position: absolute;
+            width: 100%;
+            bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 4rem;
+        }
+    }
+
+    h1 {
+        font-size: 5rem;
+        text-transform: capitalize;
+        width: 60%;
+        color: $swatch_6;
+        font-family: 'Zilla Slab Highlight', cursive;
+    }
+
+    color: #fff;
+    
+}
+
+.post-content {
+    margin-top: 5rem;
+}
+
+.post-body {
+    border-top: solid 1px rgba($swatch_6, .1);
+    border-bottom: solid 1px rgba($swatch_6, .1);
+    
+    padding: 5rem 0;
+    width: 50%;
+    margin: auto;
+    // background-color: yellow;
+    font-size: 2.2rem;
+    font-weight: 200;
+    line-height: 180%;
+    font-family: 'Crimson Pro';
+    color: #eee;
+}

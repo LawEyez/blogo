@@ -1,0 +1,170 @@
+
+/************************************* FLEX UTILITIES ****************************************/
+
+.flx {
+    display: flex;
+}
+
+.flx-col {
+    flex-direction: column;
+}
+
+.flx-row {
+    flex-direction: row;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.align-start {
+    align-items: flex-start;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+/*************************************** MARGIN UTILITIES *************************************/
+
+.mt-1 {
+    margin-top: 1rem;
+}
+
+.mt-2 {
+    margin-top: 2rem;
+}
+
+.mt-3 {
+    margin-top: 3rem;
+}
+
+
+.mb-1 {
+    margin-bottom: 1rem;
+}
+
+.mb-2 {
+    margin-bottom: 2rem;
+}
+
+.mb-3 {
+    margin-bottom: 3rem;
+}
+
+.mb-4 {
+    margin-bottom: 4rem;
+}
+
+.mb-5 {
+    margin-bottom: 5rem;
+}
+
+
+.ml-1 {
+    margin-left: 1rem;
+}
+
+
+.mr-1 {
+    margin-right: 1rem;
+}
+
+.mr-2 {
+    margin-right: 2rem;
+}
+
+/*************************************** FONT WEIGHT UTILITIES *************************************/
+
+.fw-200 {
+    font-weight: 200;
+}
+
+.fw-300 {
+    font-weight: 300;
+}
+
+.fw-500 {
+    font-weight: 500;
+}
+
+.fw-600 {
+    font-weight: 600;
+}
+
+.fw-800 {
+    font-weight: 800;
+}
+
+/*************************************** FONT COLOR UTILITIES *************************************/
+
+.red-txt {
+    color: $swatch_6;
+}
+
+.grey-txt {
+    color: $swatch_2;
+}
+
+.swatch-1 {
+    color: $swatch_1;
+}
+
+.swatch-2 {
+    color: $swatch_2;
+}
+
+.swatch-7 {
+    color: $swatch_7;
+}
+
+/*************************************** TEXT SIZE UTILITIES *************************************/
+
+.txt-sm {
+    font-size: 1rem;
+}
+
+.txt-md {
+    font-size: 1.5rem;
+}
+
+.txt-lg {
+    font-size: 3rem;
+}
+
+.txt-xxl {
+    font-size: 6rem;
+}
+
+/*************************************** TEXT ALIGN UTILITIES *************************************/
+
+.txt-center {
+    text-align: center;
+}
+
+/*************************************** CASE UTILITIES *************************************/
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+/*************************************** LETTER SPACING UTILITIES *************************************/
+
+.ls-1 {
+    letter-spacing: .5rem;
+}
+
+
+/*************************************** BORDER UTILITIES *************************************/
+
+.border-red {
+    border-color: red;
+}
+
+.rounded {
+    border-radius: 2rem;
+}
