@@ -87,19 +87,15 @@ export const onlyAuthorAllowed = model => async (req, res, next) => {
         if (model.modelName === 'Comments') {
             result = await findOneById({
                 id: req.params.id,
-                model,
-                populate: {
-                    field: 'post',
-                    sub_fields: 'author'
-                }
+                model
             })
 
             // If the initiator is the post author or admin, ensure they can't change the comment body.
-            if (result.post.author.toString() === req.user.userId || req.user.permissionLevel === ADMIN_PERMISSION) {
+            if (result.author.toString() !== req.user.userId) {
                 const { body, ...changeable } = req.body
 
                 if (!isEmpty(body)) {
-                    return res.status(403).json({ msg: 'You are not authorized to perform this action!' })
+                    return res.status(403).json({err: { msg: 'You are not authorized to perform this action!' }})
                     
                 }
 
@@ -115,7 +111,7 @@ export const onlyAuthorAllowed = model => async (req, res, next) => {
             })
             
             if (result.author.toString() !== req.user.userId) {
-                return res.status(403).json({ msg: 'You are not authorized to perform this action000!' })
+                return res.status(403).json({err: { msg: 'You are not authorized to perform this action000!' }})
             }
         }
         
@@ -144,7 +140,7 @@ export const onlyAuthorOrAdminAllowed = model => async (req, res, next) => {
             if ((result.author.toString() !== req.user.userId) &&
                 (req.user.permissionLevel !== ADMIN_PERMISSION) &&
                 (result.post.author.toString() !== req.user.userId)) {
-                return res.status(403).json({ msg: 'You are not authorized to perform this action!' })
+                return res.status(403).json({err: { msg: 'You are not authorized to perform this action!' }})
             }
 
             return next()
@@ -153,13 +149,13 @@ export const onlyAuthorOrAdminAllowed = model => async (req, res, next) => {
         result = await findOneById({ id: req.params.id, model })
 
         if ((result.author.toString() !== req.user.userId) && (req.user.permissionLevel !== ADMIN_PERMISSION)) {
-            return res.status(403).json({ msg: 'You are not authorized to perform this action!' })
+            return res.status(403).json({err: { msg: 'You are not authorized to perform this action!' }})
         }
 
         next()
 
     } catch (err) {
-        res.status(500).json({ msg: 'Internal server error at only author or admin middleware!', err})
+        res.status(500).json({err: { msg: 'Internal server error at only author or admin middleware!', err}})
     }
 }
 
@@ -177,7 +173,7 @@ export const onlyPostAuthorAllowComment = model => async (req, res, next) => {
             })
             
             if (result.post.author.toString() !== req.user.userId) {
-                return res.status(403).json({ msg: 'Only the post author can allow comment!' })
+                return res.status(403).json({err: { msg: 'Only the post author can allow comment!' }})
             }
 
             req.body.isAllowed = Boolean(parseInt(req.body.isAllowed))
@@ -187,7 +183,7 @@ export const onlyPostAuthorAllowComment = model => async (req, res, next) => {
         next()
 
     } catch (err) {
-        res.status(500).json({ msg: 'Internal server error at only post author middleware!', err})
+        res.status(500).json({err: { msg: 'Internal server error at only post author middleware!', err}})
     }
 }
 

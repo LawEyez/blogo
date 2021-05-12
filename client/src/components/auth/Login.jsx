@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { Link, useHistory } from 'react-router-dom'
+import { Link, Redirect, useHistory } from 'react-router-dom'
 
 import { login } from "../../actions/authActions"
 
@@ -23,7 +23,7 @@ const Login = () => {
     const password = useFormInput('')
 
     const { errors, dispatch: errorDispatch } = useContext(ErrorContext)
-    const { dispatch: authDispatch } = useContext(AuthContext)
+    const { isAuthenticated, dispatch: authDispatch } = useContext(AuthContext)
 
     const history = useHistory()
 
@@ -38,6 +38,11 @@ const Login = () => {
 
         login(data, authDispatch, errorDispatch, history)
 
+    }
+
+    // Redirect to homepage if user is authenticated.
+    if (isAuthenticated) {
+        return <Redirect to='/' />
     }
 
     return(

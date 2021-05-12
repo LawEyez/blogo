@@ -19,6 +19,9 @@ const EditPost = () => {
     // Clear errors once component unmounts.
     useClearErrors()
 
+    // Clear post when component unmounts
+    
+
     // Get post from context.
     const { post } = useContext(PostContext)
     console.log(post)

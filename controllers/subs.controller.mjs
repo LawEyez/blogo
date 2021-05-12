@@ -35,6 +35,21 @@ export const subscribe = async (req, res) => {
 }
 
 
+export const getSubs = async (req, res) => {
+    try {
+        const subs = await handler.findByQuery({
+            query: { subscriber: req.user.userId },
+            model: Sub
+        })
+
+        res.status(200).json({subs})
+
+    } catch (err) {
+        res.status(500).json({err: { msg: 'Internal Server Error at getting subs!', err }})
+    }
+}
+
+
 export const unsubscribe = async (req, res) => {
     try {
         const sub = await handler.findOneById({ id: req.params.id, model: Sub })

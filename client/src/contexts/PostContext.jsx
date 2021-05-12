@@ -1,5 +1,5 @@
-import { createContext, useEffect, useReducer } from "react";
-import { getPosts } from "../actions/postActions";
+import { createContext, useReducer } from "react";
+// import { getPosts } from "../actions/postActions";
 
 import postReducer from "../reducers/postReducer";
 
@@ -16,11 +16,11 @@ const PostContextProvider = props => {
     const [state, dispatch] = useReducer(postReducer, initState)
 
     // Get posts.
-    useEffect(() => {
-        getPosts(dispatch)
-    }, [])
+    // useEffect(() => {
+    //     getPosts(dispatch)
+    // }, [])
 
-    console.log('context: ', state)
+    console.log('POST CONTEXT: ', state)
     return(
         <PostContext.Provider value={{ ...state, dispatch }}>
             {props.children}

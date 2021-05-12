@@ -15,7 +15,6 @@ export const getPosts = async (dispatch, errorDispatch) => {
 
         // Parse response.
         const resData = await res.json()
-        console.log(resData)
 
         // Dispatch action.
         dispatch({ type: 'GET_POSTS', payload: resData.posts })
@@ -45,7 +44,6 @@ export const createPost = async (data, accessToken, errorDispatch, history) => {
 
         // Parse response.
         const resData = await res.json()
-        console.log(resData)
 
         if (resData.err) {
             errorDispatch({ type: 'SET_ERRORS', payload: resData.err })
@@ -95,7 +93,7 @@ export const patchPost = async (id, data, accessToken, errorDispatch, history) =
 
 
 // Get a single post.
-export const getSinglePost = async (id, dispatch, errorDispatch) => {
+export const getSinglePost = async (id, userId, dispatch, errorDispatch) => {
     try {
 
         // Configure request options.
@@ -104,7 +102,7 @@ export const getSinglePost = async (id, dispatch, errorDispatch) => {
         }
 
         // Make request.
-        const res = await fetch(`${host}/posts/${id}`, options)
+        const res = await fetch(`${host}/posts/${id}?userId=${userId}`, options)
 
         // Parse response.
         const resData = await res.json()
@@ -117,6 +115,38 @@ export const getSinglePost = async (id, dispatch, errorDispatch) => {
         } else {
             dispatch({ type: 'GET_POST', payload: resData })
         }
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
+// Delete a post.
+export const deletePost = async (id, accessToken, dispatch, history) => {
+    try {
+
+        // Configure request options.
+        const options = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            }
+        }
+
+        // Make request.
+        const res = await fetch(`${host}/posts/${id}`, options)
+
+        // Parse respose.
+        const resData = await res.json()
+        console.log('DELETE POST: ', resData)
+
+        // Clear post from context.
+        dispatch({ type: 'CLEAR_POST' })
+
+        // Redirect to home page.
+        history.push('/')
 
     } catch (err) {
         console.log(err)

@@ -56,6 +56,11 @@
 
 .header-link {
     font-size: 1.2rem;
+    border: none;
+    background: transparent;
+    font-family: 'Poppins';
+    cursor: pointer;
+    font-weight: 300;
 
     &:not(:last-child) {
         margin-right: 2rem;

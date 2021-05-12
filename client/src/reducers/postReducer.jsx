@@ -15,7 +15,7 @@ const postReducer = (state, action) => {
         case 'CLEAR_POST':
             return {
                 ...state,
-                post: null
+                post: {}
             }
             
         default:

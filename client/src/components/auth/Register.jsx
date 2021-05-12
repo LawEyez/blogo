@@ -1,7 +1,8 @@
 import { useContext } from "react"
-import { Link, useHistory } from "react-router-dom"
+import { Link, useHistory, Redirect } from "react-router-dom"
 
 import { register } from "../../actions/authActions"
+import { AuthContext } from "../../contexts/AuthContext"
 
 import { ErrorContext } from "../../contexts/ErrorContext"
 
@@ -27,6 +28,8 @@ const Register = () => {
     // Error handling.
     const { errors, dispatch: errorDispatch } = useContext(ErrorContext)
 
+    const { isAuthenticated } = useContext(AuthContext)
+
     const history = useHistory()
 
     // On form submission.
@@ -42,6 +45,12 @@ const Register = () => {
 
         register(data, errorDispatch, history)
     }
+
+    // Redirect to homepage if user is authenticated.
+    if (isAuthenticated) {
+        return <Redirect to='/' />
+    }
+
 
     return(
         <div className="auth">

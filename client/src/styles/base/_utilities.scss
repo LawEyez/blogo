@@ -1,3 +1,8 @@
+.cointainer {
+    width: 70%;
+    margin: auto;
+}
+
 
 /************************************* FLEX UTILITIES ****************************************/
 
@@ -68,6 +73,9 @@
 .ml-1 {
     margin-left: 1rem;
 }
+.ml-2 {
+    margin-left: 2rem;
+}
 
 
 .mr-1 {
@@ -76,6 +84,10 @@
 
 .mr-2 {
     margin-right: 2rem;
+}
+
+.mh-auto {
+    margin: 0 auto;
 }
 
 /*************************************** FONT WEIGHT UTILITIES *************************************/
@@ -167,4 +179,10 @@
 
 .rounded {
     border-radius: 2rem;
+}
+
+/*************************************** BG UTILITIES *************************************/
+
+.bg-red {
+    background-color: red;
 }

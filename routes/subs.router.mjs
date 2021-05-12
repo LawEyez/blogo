@@ -8,6 +8,11 @@ export default app => {
         SubsController.subscribe
     ])
 
+    app.get('/subs', [
+        validTokenNeeded,
+        SubsController.getSubs
+    ])
+
     app.delete('/subscribe/:id', [
         validTokenNeeded,
         SubsController.unsubscribe

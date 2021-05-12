@@ -1,0 +1,30 @@
+.comment-list {
+    width: 70%;
+    padding: 2rem;
+    background-color: $swatch-4;
+    border-radius: 2rem;
+}
+
+.comment-view {
+    width: 100%;
+
+    &:not(:last-child) {
+        margin-bottom: 3rem;
+    }
+
+    .badge-txt {
+        color: $swatch-7;
+        margin-bottom: .5rem;
+    }
+
+    p {
+        font-size: 1.5rem;
+
+    }
+
+    
+}
+
+.comment-content {
+    width: 100%;
+}

@@ -1,7 +1,7 @@
 const Badge = ({ img, txt }) => {
     return(
         <div className="badge flx align-center">
-            <span className="badge-txt">{txt}</span>
+            {txt && <span className="badge-txt">{txt}</span>}
 
             <div className="badge-img">
                 { img ? (

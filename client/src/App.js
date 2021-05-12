@@ -5,6 +5,7 @@ import ErrorContextProvider from './contexts/ErrorContext'
 import PostContextProvider from './contexts/PostContext'
 
 import Main from './components/Main'
+import ModalContextProvider from './contexts/ModalContext'
 
 const App = () => {
     return(
@@ -12,7 +13,9 @@ const App = () => {
             <AuthContextProvider>
                 <ErrorContextProvider>
                     <PostContextProvider>
-                        <Main />
+                        <ModalContextProvider>
+                            <Main />
+                        </ModalContextProvider>
                     </PostContextProvider>
                 </ErrorContextProvider>
             </AuthContextProvider>

@@ -1,5 +1,7 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { Link } from "react-router-dom"
+
+import { getPosts } from "../../../actions/postActions";
 
 import { PostContext } from "../../../contexts/PostContext"
 
@@ -10,7 +12,14 @@ import Slider from "../../common/Slider"
 const Home = () => {
 
     // Configure required contexts.
-    const { posts: _posts } = useContext(PostContext)  
+    const { posts: _posts, dispatch } = useContext(PostContext)
+    
+    // Get posts.
+    useEffect(() => {
+        getPosts(dispatch)
+        dispatch({ type: 'CLEAR_POST' })
+        
+    }, [dispatch])
 
     // Map each post to a post view component.
     const posts = _posts.map(post => (
@@ -21,7 +30,7 @@ const Home = () => {
 
     const categories = cats.map(cat => (
         <div className="cat">
-            <Link className='txt-xxl swatch-1 fw-800 cat-txt'><span className="red-txt">+</span> {cat} <span className="red-txt">+</span></Link>
+            <Link to='/' className='txt-xxl swatch-1 fw-800 cat-txt'><span className="red-txt">+</span> {cat} <span className="red-txt">+</span></Link>
         </div>
     ))
 

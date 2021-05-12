@@ -109,7 +109,9 @@ export const getPost = async (req, res) => {
         })
 
 
-        if (req.query.userId !== post.author.toString()) {
+        if (req.query.userId !== post.author._id.toString()) {
+            console.log(req.query.userId)
+            console.log(post.author._id.toString())
             comments = comments.filter(comment => comment.isAllowed === true)
         }
 

@@ -76,3 +76,7 @@ const reducedArray = myArray.reduce((prev, curr) => prev + curr, 0) / myArray.le
 console.log(reducedArray)
 
 console.log(Object.assign({ name: 'Allen', age: 10 }, { age: 25, sex: 'male'}))
+
+const wrapped = (10, 20)
+
+console.log('wrapped: ', wrapped)

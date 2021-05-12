@@ -1,5 +1,5 @@
-import { useContext } from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
 
 import Login from './auth/Login'
 import Register from './auth/Register'
@@ -11,10 +11,9 @@ import PrivateRoute from './common/PrivateRoute'
 import PostDetail from './posts/PostDetail'
 import EditPost from './posts/EditPost'
 
-import { AuthContext } from '../contexts/AuthContext'
+import SubContextProvider from '../contexts/SubContext'
 
 const Main = () => {
-    const { isAuthenticated } = useContext(AuthContext)
 
     return(
         <div className='Main'>
@@ -22,18 +21,19 @@ const Main = () => {
             <Header />
 
             <Switch>
+                {/* Open Routes */}
                 <Route exact path='/' component={Home} />
+                <Route exact path='/login' component={Login} />
+                <Route exact path='/register' component={Register} />
 
                 {/* Protected routes. */}
                 <PrivateRoute exact path='/add-post' component={WritePost} />
                 <PrivateRoute exact path='/my-posts' component={WritePost} />
-                <PrivateRoute exact path='/posts/:id' component={PostDetail} />
                 <PrivateRoute exact path='/posts/edit/:id' component={EditPost} />
 
-                {/* Redirect to home if user is authenticated and tries to access login or register page. */}
-                { (!isAuthenticated && <Route exact path='/login' component={Login} />) || <Redirect to='/' exact /> }
-                { (!isAuthenticated && <Route exact path='/register' component={Register} />) || <Redirect to='/' exact />}
-                
+                <SubContextProvider>
+                    <Route exact path='/posts/:id' component={PostDetail} />
+                </SubContextProvider>
             </Switch>
         </div>           
     )      
