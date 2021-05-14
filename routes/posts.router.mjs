@@ -17,6 +17,10 @@ export default app => {
     app.get('/posts/:id', [
         PostsController.getPost
     ])
+    
+    app.get('/posts/user/:userId', [
+        PostsController.getUserPosts
+    ])
 
     app.patch('/posts/:id', [
         validTokenNeeded,

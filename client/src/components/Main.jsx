@@ -10,6 +10,7 @@ import WritePost from './posts/WritePost'
 import PrivateRoute from './common/PrivateRoute'
 import PostDetail from './posts/PostDetail'
 import EditPost from './posts/EditPost'
+import UserPostsContainer from './posts/UserPostsContainer'
 
 import SubContextProvider from '../contexts/SubContext'
 
@@ -28,7 +29,7 @@ const Main = () => {
 
                 {/* Protected routes. */}
                 <PrivateRoute exact path='/add-post' component={WritePost} />
-                <PrivateRoute exact path='/my-posts' component={WritePost} />
+                <PrivateRoute exact path='/my-posts' component={UserPostsContainer} />
                 <PrivateRoute exact path='/posts/edit/:id' component={EditPost} />
 
                 <SubContextProvider>

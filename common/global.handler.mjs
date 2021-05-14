@@ -106,15 +106,18 @@ export const findByQuery = async (args) => {
 
         if (args.populate) {
             if (typeof args.populate.field === 'object') {
-                result = await args.model.find(args.query)
+                result = await args.model.find(args.query).limit(args.perPage)
+                                    .skip(args.perPage * args.page)
                                     .populate(args.populate.field[0], args.populate.sub_fields[0])
                                     .populate(args.populate.field[1], args.populate.sub_fields[1])
             } else {
-                result = await args.model.find(args.query)
+                result = await args.model.find(args.query).limit(args.perPage)
+                                    .skip(args.perPage * args.page)
                                     .populate(args.populate.field, args.populate.sub_fields)
             }
+
         } else {
-            result = await args.model.find(args.query)
+            result = await args.model.find(args.query).limit(args.perPage).skip(args.perPage * args.page)
         }
 
         return result
@@ -129,11 +132,6 @@ export const findByQuery = async (args) => {
 export const list = async (args) => {
     try {
         let result;
-        let sor
-
-        if (args.sort_field) {
-
-        }
 
         if (args.populate) {
             if (typeof args.populate.field === 'object') {
@@ -141,7 +139,6 @@ export const list = async (args) => {
                                     .skip(args.perPage * args.page)
                                     .populate(args.populate.field[0], args.populate.sub_fields[0])
                                     .populate(args.populate.field[1], args.populate.sub_fields[1])
-                                    .sort({ })
             } else {
                 result = await args.model.find().limit(args.perPage)
                                     .skip(args.perPage * args.page)

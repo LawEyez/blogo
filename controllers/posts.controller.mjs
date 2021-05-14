@@ -48,7 +48,8 @@ export const list = async (req, res) => {
                 field: ['author', 'category'],
                 sub_fields: [
                     ['firstName', 'lastName', 'avatar'],
-                    ['name']]
+                    ['name']
+                ]
             }
         })
         
@@ -66,6 +67,46 @@ export const list = async (req, res) => {
 }
 
 
+// Get a user's posts
+export const getUserPosts = async (req, res) => {
+    try {
+        const limit = req.query.limit && req.query.limit <= 100 ? req.query.limit : 10
+        let page = 0
+
+        if (req.query && req.query.page) {
+            req.query.page = parseInt(req.query.page)
+            page = Number.isInteger(req.query.page) ? req.query.page : 0
+        }
+
+        let userPosts = await handler.findByQuery({
+            query: { author: req.params.userId },
+            model: Post,
+            perPage: limit,
+            page,
+            populate: {
+                field: ['author', 'category'],
+                sub_fields: [
+                    ['firstName', 'lastName', 'avatar'],
+                    ['name']
+                ]
+            }
+        })
+
+        userPosts = userPosts.sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
+
+        !isEmpty(userPosts) ? (
+            res.status(200).json({userPosts})
+        ) : (
+            res.status(404).json({err: { msg: 'No posts to show yet!' }})
+        )
+
+    } catch (err) {
+        res.status(500).json({ err: { msg: 'Internal server error at listing user posts! ', err }})
+    }
+}
+
+
+// Get single post
 export const getPost = async (req, res) => {
     try {
         const post = await handler.findOneById({

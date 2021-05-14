@@ -152,3 +152,31 @@ export const deletePost = async (id, accessToken, dispatch, history) => {
         console.log(err)
     }
 }
+
+
+// Get user posts
+export const getUserPosts = async (id, dispatch, errorDispatch) => {
+    try {
+        // Configure request options.
+        const options = {
+            method: 'GET',
+        }
+
+        // Make request
+        const res = await fetch(`${host}/posts/user/${id}`, options)
+
+        // Parse response
+        const resJson = await res.json()
+        console.log(resJson)
+
+        // Check error
+        if (resJson.err) {
+            errorDispatch({ type: 'SET_ERRORS', payload: resJson.err})
+        } else {
+            dispatch({ type: 'GET_USER_POSTS', payload: resJson.userPosts })
+        }
+
+    } catch (err) {
+        console.log(err)
+    }
+}

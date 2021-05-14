@@ -10,6 +10,7 @@ const PostContextProvider = props => {
     // Set initial state.
     const initState = {
         posts: [],
+        userPosts: [],
         post: {}
     }
 

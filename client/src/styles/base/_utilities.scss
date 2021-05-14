@@ -186,3 +186,14 @@
 .bg-red {
     background-color: red;
 }
+
+/*************************************** GRID UTILITIES *************************************/
+
+.grid {
+    display: grid;
+    gap: 3rem;
+}
+
+.grid-col-3 {
+    grid-template-columns: repeat(3, 1fr);
+}

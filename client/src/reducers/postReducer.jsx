@@ -6,6 +6,12 @@ const postReducer = (state, action) => {
                 posts: action.payload
             }
         
+        case 'GET_USER_POSTS':
+            return {
+                ...state,
+                userPosts: action.payload
+            }
+        
         case 'GET_POST':
             return {
                 ...state,
