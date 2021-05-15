@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 
 import { getUserPosts } from "../../actions/postActions"
 
@@ -11,6 +11,7 @@ import Spinner from "../common/Spinner"
 import UserPosts from "./UserPosts"
 
 const UserPostsContainer = () => {
+    const [loading, setLoading] = useState(true)
     const {user} = useContext(AuthContext)
     const {dispatch, userPosts} = useContext(PostContext)
     const {errors, dispatch: errorDispatch} = useContext(ErrorContext)
@@ -19,15 +20,16 @@ const UserPostsContainer = () => {
 
     useEffect(() => {
         getUserPosts(userId, dispatch, errorDispatch)
+        setLoading(false)
     }, [userId, dispatch, errorDispatch])
 
-    console.log('USER POSTS: ', userPosts, errors)
+    console.log('USER POSTS: ', userPosts, errors, loading)
 
     return (
         <React.Fragment>
             <h1 className="title"><span className="fw-300">+ my </span><span className="red-txt">posts +</span></h1>
-            {/* {errors && errors.msg && <h1>{errors.msg}</h1>} */}
-            {!isEmpty(userPosts) ? <UserPosts posts={userPosts}/> : <h1>No posts to show</h1>}
+            {loading && <Spinner />}
+            {userPosts && <UserPosts posts={userPosts}/>}
         </React.Fragment>
     )
 }

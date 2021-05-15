@@ -82,6 +82,7 @@ form {
     }
 
     .btn {
+        font-size: 1.2rem;
         @media screen and (max-width: $mobile-md) {
             background-color: $swatch_6;
             color: $swatch_1;

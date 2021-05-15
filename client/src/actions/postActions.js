@@ -166,14 +166,14 @@ export const getUserPosts = async (id, dispatch, errorDispatch) => {
         const res = await fetch(`${host}/posts/user/${id}`, options)
 
         // Parse response
-        const resJson = await res.json()
-        console.log(resJson)
+        const resData = await res.json()
+        console.log(resData)
 
         // Check error
-        if (resJson.err) {
-            errorDispatch({ type: 'SET_ERRORS', payload: resJson.err})
+        if (resData.err) {
+            errorDispatch({ type: 'SET_ERRORS', payload: resData.err})
         } else {
-            dispatch({ type: 'GET_USER_POSTS', payload: resJson.userPosts })
+            dispatch({ type: 'GET_USER_POSTS', payload: resData.userPosts })
         }
 
     } catch (err) {

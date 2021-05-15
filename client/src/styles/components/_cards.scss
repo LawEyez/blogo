@@ -71,3 +71,74 @@
         }
     }
 }
+
+/************************** card 2 ********************************/
+
+.card-2 {
+    height: 30rem;
+    width: 30rem;
+
+    img {
+        width: 100%;
+        height: 60%;
+    }
+}
+
+.card-2-body {
+    width: 100%;
+}
+
+/************************** card 3 ********************************/
+
+.card-3 {
+    position: relative;
+    height: 30rem;
+    width: 30rem;
+    overflow: hidden;
+
+    &-img {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .top {
+        position: absolute;
+        top: 0;
+        padding: 1rem;
+        width: 100%;
+        color: $swatch_1;
+        
+    }
+    
+    .badge {
+        background-color: rgba($swatch_4, .4);
+        backdrop-filter: blur(2px);
+        &-txt {
+            margin: 0 1rem;
+        }        
+    }
+}
+
+.card-3-body {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to bottom, rgba($swatch_5, .5), rgba($swatch_5, .9));
+}
+
+.card-3-content {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: max-content;
+    padding: 2rem;
+
+    .lnr {
+        font-size: 1.5rem;
+    }
+
+
+}

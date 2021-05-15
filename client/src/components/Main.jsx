@@ -13,6 +13,8 @@ import EditPost from './posts/EditPost'
 import UserPostsContainer from './posts/UserPostsContainer'
 
 import SubContextProvider from '../contexts/SubContext'
+import SubListContainer from './subs/SubListContainer'
+import ChannelViewContainer from './channel/ChannelViewContainer'
 
 const Main = () => {
 
@@ -33,6 +35,8 @@ const Main = () => {
                 <PrivateRoute exact path='/posts/edit/:id' component={EditPost} />
 
                 <SubContextProvider>
+                    <Route exact path='/channels/:channelId' component={ChannelViewContainer} />
+                    <PrivateRoute exact path='/subscriptions' component={SubListContainer} />
                     <Route exact path='/posts/:id' component={PostDetail} />
                 </SubContextProvider>
             </Switch>

@@ -35,11 +35,26 @@ export const subscribe = async (req, res) => {
 }
 
 
+// Get all subs
 export const getSubs = async (req, res) => {
     try {
+        const limit = req.query.limit && req.query.limit <= 100 ? req.query.limit : 10
+        let page = 0
+
+        if (req.query && req.query.page) {
+            req.query.page = parseInt(req.query.page)
+            page = Number.isInteger(req.query.page) ? req.query.page : 0
+        }
+
         const subs = await handler.findByQuery({
             query: { subscriber: req.user.userId },
-            model: Sub
+            model: Sub,
+            perPage: limit,
+            page,
+            populate: {
+                field: 'channel',
+                sub_fields: ['firstName', 'lastName', 'avatar']
+            }
         })
 
         res.status(200).json({subs})
@@ -50,6 +65,7 @@ export const getSubs = async (req, res) => {
 }
 
 
+// Unsubscribe
 export const unsubscribe = async (req, res) => {
     try {
         const sub = await handler.findOneById({ id: req.params.id, model: Sub })

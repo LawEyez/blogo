@@ -21,8 +21,6 @@ export default app => {
     ])
 
     app.get('/users/:id', [
-        ValidationMiddleware.validTokenNeeded,
-        PermissionMiddleware.sameUserOrAdminAllowed,
         UsersController.getById
     ])
 

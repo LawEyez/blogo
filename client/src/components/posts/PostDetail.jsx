@@ -4,12 +4,10 @@ import { Link } from 'react-router-dom'
 import htmlParser from 'react-html-parser'
 
 import { getSinglePost, deletePost } from "../../actions/postActions"
-import { deleteSub, postSub } from "../../actions/subActions"
 
 import { ErrorContext } from "../../contexts/ErrorContext"
 import { PostContext } from "../../contexts/PostContext"
 import { AuthContext } from "../../contexts/AuthContext"
-import { SubContext } from "../../contexts/SubContext"
 import { ModalContext } from "../../contexts/ModalContext"
 
 import { isEmpty } from "../../helpers"
@@ -19,6 +17,8 @@ import Spinner from "../common/Spinner"
 import AddComment from "../comments/AddComment"
 import CommentList from "../comments/CommentList/CommentList"
 import useClearError from "../../hooks/useClearErrors"
+import SubActionsContainer from "../subs/SubActionsContainer"
+import Social from "../common/Social"
 
 const PostDetail = () => {
     // Clear previous errors
@@ -33,10 +33,6 @@ const PostDetail = () => {
     // Get post from post context.
     const {post, dispatch} = useContext(PostContext)
 
-    // Get subs from sub context.
-    const {subs: _subs} = useContext(SubContext)
-
-    let subs = _subs || []
 
     // Set up global contexts.
     const { modalOpen, setModalOpen } = useContext(ModalContext)
@@ -49,36 +45,6 @@ const PostDetail = () => {
         getSinglePost(id, userId, dispatch, errorDispatch)
 
     }, [id, dispatch, errorDispatch, userId])
-
-    // Check if sub exists
-    let hasSub
-    let sub
-
-    // Wrap in try-catch as subs might be undefined
-    try {
-        sub = subs.find(sub => sub.channel === post.postData.author._id)
-        hasSub = !isEmpty(sub)
-
-    } catch (error) {
-        console.log('YOU FUCKED UP SOMEWHERE')
-    }
-
-    console.log('SUBSCRIBED: ', sub, hasSub)
-
-    // Handle subsription attempt.
-    const handleSubActions = e => {
-        if (e.target.value === 'sub') {
-            const data = {
-                subscriber: user.userId,
-                channel: post.postData.author._id
-            }
-    
-            postSub(data, accessToken, errorDispatch)
-
-        } else {
-            deleteSub(sub._id, accessToken, errorDispatch)
-        }
-    }
 
     return (
         
@@ -98,36 +64,20 @@ const PostDetail = () => {
 
                         <div className='post-header-info'>
                             <div className="social-badge flx align-center space-between">
-                                <div className="social flx align-center">
-                                    <Link to='/' className='swatch-1 mr-2'>
-                                        <i className="lni lni-facebook-filled"></i>
-                                    </Link>
-                                    
-                                    <Link to='/' className='swatch-1 mr-2'>
-                                        <i className="lni lni-twitter"></i>
-                                    </Link>
-                                    
-                                    <Link to='/' className='swatch-1'>
-                                        <i className="lni lni-instagram"></i>
-                                    </Link>
-                                </div>
+                                <Social />
 
                                 <div className="flx align-center">
-                                    {!isEmpty(user) && (post.postData.author._id !== user.userId) && !hasSub && (
-                                        <button className="btn btn-light-outline mr-2" value='sub' onClick={handleSubActions}>subscribe</button>
-                                    )}
-                                    
-                                    {!isEmpty(user) && (post.postData.author._id !== user.userId) && hasSub && (
-                                        <button className="btn btn-light mr-2" value='unsub' onClick={handleSubActions}>unsubscribe</button>
-                                    )}
+                                    <SubActionsContainer channel={post.postData.author._id} />
 
-                                    <div className="badge badge-swatch7 flx align-center">
-                                        <span className="badge-txt">{post.postData.author.firstName} {post.postData.author.lastName}</span>
+                                    <Link to={`/channels/${post.postData.author._id}`} className="ml-2">
+                                        <div className="badge badge-swatch7 flx align-center">
+                                            <span className="badge-txt">{post.postData.author.firstName} {post.postData.author.lastName}</span>
 
-                                        <div className="badge-img ml-1">
-                                            <img src="/img/avatar.jpg" alt=""/>
+                                            <div className="badge-img ml-1">
+                                                <img src="/img/avatar.jpg" alt=""/>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 </div>
                             </div>
 

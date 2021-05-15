@@ -42,8 +42,8 @@ const Slider = ({ content, gap, perView }) => {
                     // when window width is >= 1280px
                     1280: {
                     //   width: 768,
-                      slidesPerView: 3,
-                      spaceBetween: 50
+                      slidesPerView: 4,
+                      spaceBetween: 40
                     },
                   }}
             >

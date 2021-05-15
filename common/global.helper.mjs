@@ -21,6 +21,6 @@ export const hash = (salt='', str) => {
 }
 
 export const cleaned = user => {
-    const { password, __v, ...cleanedUser } = {...user._doc}
+    const { password, __v, permissionLevel, ...cleanedUser } = {...user._doc}
     return cleanedUser
 }

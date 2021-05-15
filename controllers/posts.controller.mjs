@@ -70,7 +70,7 @@ export const list = async (req, res) => {
 // Get a user's posts
 export const getUserPosts = async (req, res) => {
     try {
-        const limit = req.query.limit && req.query.limit <= 100 ? req.query.limit : 10
+        const limit = req.query.limit && req.query.limit <= 100 ? parseInt(req.query.limit) : 10
         let page = 0
 
         if (req.query && req.query.page) {

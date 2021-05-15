@@ -1,4 +1,4 @@
-.cointainer {
+.container {
     width: 70%;
     margin: auto;
 }
@@ -26,12 +26,20 @@
     align-items: flex-start;
 }
 
+.align-end {
+    align-items: flex-end;
+}
+
 .justify-center {
     justify-content: center;
 }
 
 .justify-between {
     justify-content: space-between;
+}
+
+.justify-evenly {
+    justify-content: space-evenly;
 }
 
 /*************************************** MARGIN UTILITIES *************************************/
@@ -46,6 +54,10 @@
 
 .mt-3 {
     margin-top: 3rem;
+}
+
+.mt-4 {
+    margin-top: 4rem;
 }
 
 
@@ -73,6 +85,7 @@
 .ml-1 {
     margin-left: 1rem;
 }
+
 .ml-2 {
     margin-left: 2rem;
 }
@@ -86,8 +99,26 @@
     margin-right: 2rem;
 }
 
+.mr-3 {
+    margin-right: 3rem;
+}
+
 .mh-auto {
     margin: 0 auto;
+}
+
+/*************************************** PADDING UTILITIES *************************************/
+
+.pd-1 {
+    padding: 1rem;
+}
+
+.pd-2 {
+    padding: 2rem;
+}
+
+.pd-3 {
+    padding: 3rem;
 }
 
 /*************************************** FONT WEIGHT UTILITIES *************************************/
@@ -98,6 +129,10 @@
 
 .fw-300 {
     font-weight: 300;
+}
+
+.fw-400 {
+    font-weight: 400;
 }
 
 .fw-500 {
@@ -118,6 +153,10 @@
     color: $swatch_6;
 }
 
+.yellow-txt {
+    color: yellow;
+}
+
 .grey-txt {
     color: $swatch_2;
 }
@@ -130,9 +169,14 @@
     color: $swatch_2;
 }
 
+.swatch-3 {
+    color: $swatch_3;
+}
+
 .swatch-7 {
     color: $swatch_7;
 }
+
 
 /*************************************** TEXT SIZE UTILITIES *************************************/
 
@@ -148,7 +192,7 @@
     font-size: 3rem;
 }
 
-.txt-xxl {
+.txt-xlg {
     font-size: 6rem;
 }
 
@@ -158,9 +202,14 @@
     text-align: center;
 }
 
+
 /*************************************** CASE UTILITIES *************************************/
 
-.uppercase {
+.txt-capitalize {
+    text-transform: capitalize;
+}
+
+.txt-uppercase {
     text-transform: uppercase;
 }
 
@@ -177,7 +226,10 @@
     border-color: red;
 }
 
-.rounded {
+.br-1 {
+    border-radius: 1rem;
+}
+.br-2 {
     border-radius: 2rem;
 }
 
@@ -187,13 +239,56 @@
     background-color: red;
 }
 
+.bg-swatch-3 {
+    background-color: $swatch_3;
+}
+
+.bg-swatch-4 {
+    background-color: $swatch_4;
+}
+
 /*************************************** GRID UTILITIES *************************************/
 
 .grid {
     display: grid;
-    gap: 3rem;
+    grid-auto-rows: minmax(15rem, auto);
 }
 
 .grid-col-3 {
     grid-template-columns: repeat(3, 1fr);
 }
+
+.grid-col-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-col-5 {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.gap {
+    &-1 {
+        gap: 1rem;
+    }
+    &-2 {
+        gap: 2rem;
+    }
+    &-3 {
+        gap: 3rem;
+    }
+}
+
+/*************************************** IMAGE UTILITIES *************************************/
+
+.round-img {
+    height: 12rem;
+    width: 12rem;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+.square-img {
+    width: 25rem;
+    object-fit: cover;
+}
+

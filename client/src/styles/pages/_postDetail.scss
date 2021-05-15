@@ -9,7 +9,7 @@
     height: 40vh;
     width: 100%;
     background-color: $swatch_4;
-    border-radius: 2rem;
+    // border-radius: 2rem;
     overflow: hidden;
     box-shadow: 0 1px 1rem rgba(0,0,0,.1);
 
@@ -58,11 +58,11 @@
     }
 
     h1 {
-        font-size: 5rem;
+        font-size: 4rem;
         text-transform: capitalize;
         width: 60%;
-        color: $swatch_6;
-        font-family: 'Zilla Slab Highlight', cursive;
+        color: $swatch_1;
+        // font-family: 'Zilla Slab Highlight', cursive;
     }
 
     color: #fff;

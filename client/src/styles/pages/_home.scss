@@ -6,8 +6,9 @@
     position: relative;
     width: 100%;
     padding: 5rem 3rem;
-    border-radius: 5rem;
-    background-color: $swatch_4;
+    border-radius: 1rem;
+    background: linear-gradient(to bottom, rgba($swatch_5, .9), rgba($swatch_5, .9)), url(bg.jpg);
+    background-size: cover;
     margin: 3rem 0;
 
     @media screen and (max-width: $mobile-md) {

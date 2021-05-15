@@ -27,7 +27,7 @@ const Navbar = (props) => {
                             <span className="nav-link-txt">Home</span>
                         </NavLink>
 
-                        <NavLink to='/' className='nav-link'>
+                        <NavLink to='/subscriptions' className='nav-link'>
                             <i className="lnr lnr-pushpin"></i>
                             <span className="nav-link-txt">Subscriptions</span>
                         </NavLink>

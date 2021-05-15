@@ -5,22 +5,36 @@ const useFetch = (args) => {
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState(null)
 
+    const { url } = args
+    const { method } = args.options
+
     useEffect(() => {
         // Abort controller
         const abortController = new AbortController()
 
-        if (args.body) {
-            args.options.body = JSON.stringify(args.body)
+        const options = {
+            method
         }
-
-        fetch(args.url, args.options)
-        .then(res => res.json())
-        .then(data => {
-            
-        })
-
         
-    })
+        fetch(url, options)
+            .then(res => res.json())
+            .then(data => {
+                if (data.err) {
+                    setError(data.err)
+
+                } else {
+                    setData(data)
+                }
+
+                setIsLoading(false)
+            })
+            .catch(err => {
+                setError(err)
+                setIsLoading(false)
+            })
+    }, [url, method])
+
+    return { data, isLoading, error }
 }
 
 export default useFetch

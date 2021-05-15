@@ -11,12 +11,12 @@ const HomeCTA = () => {
                 
                 <div className="flx flx-col">
                     <span className="fw-300 italic txt-md">- Bioga Ojuka</span>
-                    <span className="txt-sm uppercase swatch-7 ls-1 mt-1">founder of proze</span>
+                    <span className="txt-sm txt-uppercase swatch-7 ls-1 mt-1">founder of proze</span>
                 </div>
                 
             </h1>
 
-            <p className='mt-1 mb-2'>Rise up. Join the movement. Change the world.</p>
+            <p className='mt-2'>Rise up. Join the movement. Change the world.</p>
 
             <div className="mt-3">
                 <Link to={isAuthenticated ? '/add-post' : '/login'} className='btn'>
