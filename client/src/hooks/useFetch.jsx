@@ -1,20 +1,47 @@
 import { useEffect, useState } from "react"
+import { isEmpty } from "../helpers"
 
 const useFetch = (args) => {
     const [data, setData] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState(null)
+    
+    // Set defaults
+    args.accessToken = !isEmpty(args.accessToken) ? args.accessToken : ''
+    args.body = !isEmpty(args.body) ? JSON.stringify(args.body) : '' 
 
     const { url } = args
-    const { method } = args.options
+    const { method, accessToken, body } = args
+
 
     useEffect(() => {
         // Abort controller
-        const abortController = new AbortController()
+        // const abortController = new AbortController()
+        const initOptions = { method }
 
-        const options = {
-            method
+        const configureOptions = (method, initOptions) => {
+            if (method === 'GET' || method === 'DELETE') {
+                return {
+                    ...initOptions,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                }
+
+            } else if (method === 'POST' || method === 'PATCH') {
+                return {
+                    ...initOptions,
+                    body,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                }
+            }
         }
+
+        const options = configureOptions(method, initOptions)
         
         fetch(url, options)
             .then(res => res.json())
@@ -32,7 +59,8 @@ const useFetch = (args) => {
                 setError(err)
                 setIsLoading(false)
             })
-    }, [url, method])
+            
+    }, [url, method, accessToken, body])
 
     return { data, isLoading, error }
 }

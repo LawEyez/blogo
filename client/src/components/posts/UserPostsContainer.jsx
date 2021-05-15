@@ -5,10 +5,9 @@ import { getUserPosts } from "../../actions/postActions"
 import { AuthContext } from "../../contexts/AuthContext"
 import { ErrorContext } from "../../contexts/ErrorContext"
 import { PostContext } from "../../contexts/PostContext"
-import { isEmpty } from "../../helpers"
 
 import Spinner from "../common/Spinner"
-import UserPosts from "./UserPosts"
+import PostGrid from "./PostGrid"
 
 const UserPostsContainer = () => {
     const [loading, setLoading] = useState(true)
@@ -29,7 +28,7 @@ const UserPostsContainer = () => {
         <React.Fragment>
             <h1 className="title"><span className="fw-300">+ my </span><span className="red-txt">posts +</span></h1>
             {loading && <Spinner />}
-            {userPosts && <UserPosts posts={userPosts}/>}
+            {userPosts && <PostGrid posts={userPosts}/>}
         </React.Fragment>
     )
 }

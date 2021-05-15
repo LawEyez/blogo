@@ -1,6 +1,6 @@
 import PostView from "./PostView"
 
-const UserPosts = ({ posts }) => {
+const PostGrid = ({ posts }) => {
     return (
         <div className="grid grid-col-4 gap-2">
             {posts.map(post => <PostView key={post._id} post={post} />)}
@@ -8,4 +8,4 @@ const UserPosts = ({ posts }) => {
     )
 }
 
-export default UserPosts
+export default PostGrid

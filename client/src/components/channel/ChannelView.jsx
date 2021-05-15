@@ -1,5 +1,6 @@
 import Rating from "../common/Rating"
-import UserPosts from "../posts/UserPosts"
+import Social from "../common/Social"
+import UserPosts from "../posts/PostGrid"
 import SubActionsContainer from "../subs/SubActionsContainer"
 
 const ChannelView = ({ channel, posts, hasSub }) => {
@@ -12,6 +13,8 @@ const ChannelView = ({ channel, posts, hasSub }) => {
                     <div className="flx flx-col">
                         <h1 className="txt-capitalize mb-1">{channel.user.firstName} {channel.user.lastName}</h1>
                         <Rating />
+                        <br />
+                        <Social />
                     </div>
                 </div>
 

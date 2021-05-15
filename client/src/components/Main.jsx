@@ -1,23 +1,36 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
+// Auth components
 import Login from './auth/Login'
 import Register from './auth/Register'
+
+// Layout components
 import Header from './layout/Header'
 import Navbar from './layout/Navbar'
-import Home from './pages/home/Home'
+
+// Post components
 import WritePost from './posts/WritePost'
-import PrivateRoute from './common/PrivateRoute'
 import PostDetail from './posts/PostDetail'
 import EditPost from './posts/EditPost'
 import UserPostsContainer from './posts/UserPostsContainer'
 
-import SubContextProvider from '../contexts/SubContext'
+// Common components
+import PrivateRoute from './common/PrivateRoute'
+
+// Page components
+import Home from './pages/home/Home'
+
+// Sub components
 import SubListContainer from './subs/SubListContainer'
+
+// Channel components
 import ChannelViewContainer from './channel/ChannelViewContainer'
 
-const Main = () => {
+// Contexts
+import SubContextProvider from '../contexts/SubContext'
 
+const Main = () => {
     return(
         <div className='Main'>
             <Navbar />

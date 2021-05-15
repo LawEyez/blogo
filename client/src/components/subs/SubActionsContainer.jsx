@@ -50,7 +50,7 @@ const SubActionsContainer = ({ channel }) => {
         }
     }
 
-    return <SubActions hasSub={hasSub} handleSubActions={handleSubActions} diffChannel={diffChannel} />
+    return <SubActions hasSub={hasSub} handleSubActions={handleSubActions} diffChannel={diffChannel} isAuthenticated={isAuthenticated} />
 }
 
 export default SubActionsContainer

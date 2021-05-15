@@ -30,7 +30,7 @@ const Home = () => {
 
     const categories = cats.map(cat => (
         <div className="cat">
-            <Link to='/' className='txt-xxl swatch-1 fw-800 cat-txt'><span className="red-txt">+</span> {cat} <span className="red-txt">+</span></Link>
+            <Link to='/' className='txt-xlg swatch-1 fw-800 cat-txt'><span className="red-txt">+</span> {cat} <span className="red-txt">+</span></Link>
         </div>
     ))
 
