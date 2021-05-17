@@ -20,12 +20,12 @@ const ChannelView = ({ channel, posts, hasSub }) => {
 
                 <div className="flx flx-col align-center">
                     <h1 className="fw-600 txt-xlg swatch-7">{channel.subCount}</h1>
-                    <p className="txt-uppercase swatch-2">subscriber{channel.subCount !== 1 && 's'}</p>
+                    <p className="txt-uppercase swatch-2 ls-1">subscriber{channel.subCount !== 1 && 's'}</p>
                 </div>
                 
                 <div className="flx flx-col align-center">
                     <h1 className="fw-600 txt-xlg swatch-7">{channel.postCount}</h1>
-                    <p className="txt-uppercase swatch-2">post{channel.postCount !== 1 && 's'}</p>
+                    <p className="txt-uppercase swatch-2 ls-1">post{channel.postCount !== 1 && 's'}</p>
                 </div>
 
                 <SubActionsContainer channel={channel.user._id} />

@@ -44,6 +44,7 @@ export const createPost = async (data, accessToken, errorDispatch, history) => {
 
         // Parse response.
         const resData = await res.json()
+        console.log('CREATE POST ACTION: ', resData)
 
         if (resData.err) {
             errorDispatch({ type: 'SET_ERRORS', payload: resData.err })

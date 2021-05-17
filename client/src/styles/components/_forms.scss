@@ -90,6 +90,22 @@ form {
     }
 }
 
+#defaultFileInput {
+    display: none;
+}
+
+.img-preview {
+    height: 40rem;
+    max-width: 100%;
+    overflow-x: hidden;
+
+    img {
+        height: 100%;
+        // width: 100%;
+        object-fit: cover;
+    }
+}
+
 /*********************************************** CKEDITOR *********************************************************/
 
 .ck {

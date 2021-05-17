@@ -1,10 +1,20 @@
+import azureStorage from 'azure-storage'
+import intoStream from 'into-stream'
+
 import Post from '../models/posts.model.mjs'
 import Comment from '../models/comments.model.mjs'
 import Like from '../models/likes.model.mjs'
+
 import * as handler from '../common/global.handler.mjs'
-import CreatePostValidator from '../validators/create.post.validator.mjs'
 import { isEmpty } from '../common/global.helper.mjs'
 
+import CreatePostValidator from '../validators/create.post.validator.mjs'
+
+import _ from 'dotenv'
+_.config()
+
+const blobService = azureStorage.createBlobService()
+const container = 'prze-posts'
 
 export const createPost = async (req, res) => {
     try {
@@ -16,7 +26,31 @@ export const createPost = async (req, res) => {
 
         req.body.author = req.user.userId
 
-        const post = await handler.create(req.body, Post)
+        const { image, ...data } = req.body
+
+        if (!isEmpty(image)) {
+            const blob = Date.now().toString() + '_' + image.name
+            const stream = intoStream(Buffer.from(image.buffer))
+
+            console.log(image)
+            const streamLength = image.size
+
+            blobService.createBlockBlobFromStream(container, blob, stream, streamLength, (err => {
+                if (err) {
+                    console.log(err)
+                    return res.status(500).json({ err: { msg: 'Error occurred during upload', err }})
+                }
+            }))
+
+            data.poster = `https://${process.env.AZURE_STORAGE_ACCOUNT}.blob.core.windows.net/${container}/${blob}`
+
+        } else {
+            data.poster = '/img/poster.jpg'
+        }
+
+        const post = await handler.create(data, Post)
+
+        console.log(post)
 
         !isEmpty(post) ? (
             res.status(200).json({ msg: 'Post created successfully!', postId: post._id })
@@ -155,6 +189,8 @@ export const getPost = async (req, res) => {
             console.log(post.author._id.toString())
             comments = comments.filter(comment => comment.isAllowed === true)
         }
+
+        console.log('SINGLE POST: ', post)
 
         res.status(200).json({postData: post, comments, likes: likeCount, dislikes: dislikeCount})
         

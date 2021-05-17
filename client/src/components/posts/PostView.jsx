@@ -10,7 +10,7 @@ const PostView = ({ post }) => {
         <div className="card card-1 mr-2">
             <Badge img={post.author.avatar} txt={`${post.author.firstName} ${post.author.lastName}`}/>
 
-            <img src='/img/poster.jpg' className="card-img" alt='Poster' />
+            <img src={'/img/poster.jpg'} className="card-img" alt='Poster' />
 
             <div className="card-body">
                 <div className="flx align-center justify-between">
@@ -39,13 +39,15 @@ const PostView = ({ post }) => {
 
     return(
         <div className="card-3">
-            <img src="/img/poster.jpg" alt="" className="card-3-img" />
+            <img src={post.poster ? post.poster : "/img/poster.jpg"} alt="" className="card-3-img" />
 
             <div className="card-3-body">
                 <div className="top flx align-center justify-between">
                     <Rating />
 
-                    <Badge img={post.author.avatar} txt={`${post.author.firstName} ${post.author.lastName}`}/>
+                    <Link to={`/channels/${post.author._id}`}>
+                        <Badge img={post.author.avatar} txt={`${post.author.firstName} ${post.author.lastName}`}/>
+                    </Link>
                 </div>
                 
                 <div className="card-3-content">

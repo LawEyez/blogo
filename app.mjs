@@ -1,6 +1,8 @@
 import express from 'express'
 import _ from 'dotenv'
+
 import { connectWithRetry } from './services/mongo.service.mjs'
+
 import UsersRouter from './routes/users.router.mjs'
 import AuthRouter from './routes/auth.router.mjs'
 import PostsRouter from './routes/posts.router.mjs'
@@ -10,6 +12,7 @@ import SubsRouter from './routes/subs.router.mjs'
 import LikesRouter from './routes/likes.router.mjs'
 
 _.config()
+
 connectWithRetry()
 
 const app = express()
@@ -27,8 +30,8 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.json({ limit: '10mb' }))
+app.use(express.urlencoded({ limit: '10mb', extended: true }))
 
 AuthRouter(app)
 UsersRouter(app)

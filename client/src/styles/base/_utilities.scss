@@ -157,6 +157,10 @@
     color: yellow;
 }
 
+.grey-light {
+    color: #eee;
+}
+
 .grey-txt {
     color: $swatch_2;
 }
@@ -254,6 +258,10 @@
     grid-auto-rows: minmax(15rem, auto);
 }
 
+.grid-col-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
 .grid-col-3 {
     grid-template-columns: repeat(3, 1fr);
 }
@@ -276,6 +284,11 @@
     &-3 {
         gap: 3rem;
     }
+}
+
+.grid-center {
+    align-self: center;
+    justify-self: center;
 }
 
 /*************************************** IMAGE UTILITIES *************************************/

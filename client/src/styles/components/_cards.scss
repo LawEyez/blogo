@@ -112,13 +112,6 @@
         
     }
     
-    .badge {
-        background-color: rgba($swatch_4, .4);
-        backdrop-filter: blur(2px);
-        &-txt {
-            margin: 0 1rem;
-        }        
-    }
 }
 
 .card-3-body {
@@ -127,6 +120,19 @@
     height: 100%;
     width: 100%;
     background: linear-gradient(to bottom, rgba($swatch_5, .5), rgba($swatch_5, .9));
+    
+    .badge {
+        background-color: rgba($swatch_4, .4);
+        backdrop-filter: blur(2px);
+        
+        &-txt {
+            margin: 0 1rem;
+        }  
+        
+        .lni {
+            color: #fff;
+        }
+    }
 }
 
 .card-3-content {

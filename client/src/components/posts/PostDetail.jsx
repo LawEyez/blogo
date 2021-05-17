@@ -33,7 +33,6 @@ const PostDetail = () => {
     // Get post from post context.
     const {post, dispatch} = useContext(PostContext)
 
-
     // Set up global contexts.
     const { modalOpen, setModalOpen } = useContext(ModalContext)
     const {errors, dispatch: errorDispatch} = useContext(ErrorContext)
@@ -45,7 +44,8 @@ const PostDetail = () => {
         getSinglePost(id, userId, dispatch, errorDispatch)
 
     }, [id, dispatch, errorDispatch, userId])
-
+    
+    console.log('SINGLE POST: ', post)
     return (
         
         <React.Fragment>
@@ -60,7 +60,7 @@ const PostDetail = () => {
                 <div className="post-detail">
 
                     <div className="post-header">
-                        <img className='poster' src="/img/poster.jpg" alt=""/>
+                        <img className='poster' src={post.postData.poster ? post.postData.poster : "/img/poster.jpg"} alt=""/>
 
                         <div className='post-header-info'>
                             <div className="social-badge flx align-center space-between">
