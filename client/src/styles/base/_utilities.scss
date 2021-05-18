@@ -91,6 +91,10 @@
 }
 
 
+.mr-h {
+    margin-right: .5rem;
+}
+
 .mr-1 {
     margin-right: 1rem;
 }
@@ -305,3 +309,8 @@
     object-fit: cover;
 }
 
+/********************************** POS UTILS ************************************/
+
+.pos-rel {
+    position: relative;
+}

@@ -41,15 +41,15 @@ const Navbar = (props) => {
                             <i className="lnr lnr-bubble"></i>
                             <span className="nav-link-txt">Chats</span>
                         </NavLink>
-                        
-                        <NavLink to='/' className='nav-link'>
-                            <i className="lnr lnr-user"></i>
-                            <span className="nav-link-txt">Profile</span>
-                        </NavLink>
 
                         <NavLink to='/' className='nav-link'>
                             <i className="lnr lnr-chart-bars"></i>
                             <span className="nav-link-txt">Dashboard</span>
+                        </NavLink>                        
+                        
+                        <NavLink to='/' className='nav-link'>
+                            <i className="lnr lnr-cog"></i>
+                            <span className="nav-link-txt">Settings</span>
                         </NavLink>                        
                     </div>
                     

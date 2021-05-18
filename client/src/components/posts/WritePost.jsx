@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import { useHistory } from "react-router"
+import { Redirect, useHistory } from "react-router"
 import { CKEditor } from  '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
@@ -13,8 +13,8 @@ import useFormInput from "../../hooks/useFormInput"
 
 import ErrorTag from '../common/ErrorTag'
 import Spinner from '../common/Spinner'
-
-
+import Modal from "../common/Modal"
+import { isEmpty } from "../../helpers"
 
 const WritePost = () => {
 
@@ -26,7 +26,9 @@ const WritePost = () => {
     const [body, setBody] = useState('')
     const [image, setImage] = useState(null)
     const [preview, setPreview] = useState(null)
-    const [loading, setIsLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
+    // const [response, setResponse] = useState({ created: false })
+    const [submitted, setSubmitted] = useState(false)
 
     const { accessToken } =  useContext(AuthContext)
     const { errors, dispatch } = useContext(ErrorContext)
@@ -34,13 +36,15 @@ const WritePost = () => {
     const history = useHistory()
 
     const handlePreview = (file) => {
+        setLoading(true)
+
         const reader = new FileReader()
 
         reader.readAsDataURL(file)
 
         reader.onloadend = () => {
-            setIsLoading(false)
             setPreview({ fileName: file.name, src: reader.result})
+            setLoading(false)
         }
     }
 
@@ -65,6 +69,7 @@ const WritePost = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
+        setSubmitted(true)
         
         const postData = { title: title.value, body, isDraft: false, image }
 
@@ -75,10 +80,12 @@ const WritePost = () => {
         createPost(postData, accessToken, dispatch, history)
     }
 
-    console.log('IMAGE PREV: ', preview)
 
     return (
-        <div className="mt-3">
+        
+        <div className="mt-3 pos-rel">
+            { submitted && isEmpty(errors) && <Spinner />}
+            
             <h1 className="title">
                 <span className="fw-300">+ write </span>
                 <span className="red-txt">post +</span>
@@ -96,9 +103,7 @@ const WritePost = () => {
                 <hr className="mb-4" />
 
                 <div className="">
-
                     <div className="grid grid-col-2 gap-3 mb-4">
-
                         <div className="g-col">
                             <h1 className="txt-capitalize grey-light mb-1">choose poster</h1>
                             <h3 className="fw-300 swatch-7 mb-3">Choose an image that will be your article's poster.</h3>
@@ -112,14 +117,14 @@ const WritePost = () => {
                                 <span className='txt-md swatch-7'>{preview ? preview.fileName : 'No File Chosen'}</span>
                             </div>
                         </div>
+
                         <div className="g-col bg-swatch-4 grid img-preview">
                             {preview ? (
-                                !loading ? <img className="grid-center" src={preview.src} alt="" /> : <Spinner />
+                                <img className="grid-center" src={preview.src} alt="" />
                             ) : (
-                                <h1 className="fw-200 grid-center txt-lg swatch-7">No preview to show</h1>
+                                loading ? <Spinner /> : <h1 className="fw-200 grid-center txt-lg swatch-7">No preview to show</h1>
                             )}
                         </div>
-
                     </div>
                 </div>
                 

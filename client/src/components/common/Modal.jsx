@@ -1,8 +1,10 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { ErrorContext } from "../../contexts/ErrorContext"
 import { ModalContext } from "../../contexts/ModalContext"
+import Spinner from "./Spinner"
 
 const Modal = ({ title, content, callAction, actionText }) => {
+    
 
     const {dispatch: errorDispatch} = useContext(ErrorContext)
     
@@ -16,29 +18,32 @@ const Modal = ({ title, content, callAction, actionText }) => {
 
     return (
         <div className="modal">
-            <div className="modal-box">
-                <button className="btn close-modal" onClick={() => {setEdit(false); setModalOpen(false)}}>
-                    <div className="flx align-center">
-                        <i className="lnr lnr-cross"></i>
-                    </div>
-                </button>
+            
+                <div className="modal-box">
+                    <button className="btn close-modal" onClick={() => {setEdit(false); setModalOpen(false)}}>
+                        <div className="flx align-center">
+                            <i className="lnr lnr-cross"></i>
+                        </div>
+                    </button>
 
-                <div className="modal-body">
-                    <h1 className='title'>{title}</h1>
+                    <div className="modal-body">
+                        <h1 className='title'>{title}</h1>
 
-                    {content}
+                        {content}
 
-                    <div className="flx align-center">
-                        <button className="btn btn-swatch6 mr-2" onClick={() => {
-                            callAction()
-                            setModalOpen(false)
-                            setEdit(false)
-                        }}>{actionText}</button>
-                        
-                        <button className="btn" onClick={() => {setEdit(false); setModalOpen(false)}}>cancel</button>
+                        <div className="flx align-center">
+                            <button className="btn btn-swatch6 mr-2" onClick={() => {
+                                callAction()
+                                setModalOpen(false)
+                                setEdit(false)
+                                
+                            }}>{actionText}</button>
+                            
+                            <button className="btn" onClick={() => {setEdit(false); setModalOpen(false)}}>cancel</button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            
         </div>
     )
 }

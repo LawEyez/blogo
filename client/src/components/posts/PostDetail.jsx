@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router"
 import { Link } from 'react-router-dom'
 import htmlParser from 'react-html-parser'
@@ -39,6 +39,8 @@ const PostDetail = () => {
     const {user, accessToken} = useContext(AuthContext)
     const { userId } = user
 
+    const [loading, setLoading] = useState(false)
+
     // Fetch post when component renders.
     useEffect(() => {
         getSinglePost(id, userId, dispatch, errorDispatch)
@@ -49,10 +51,11 @@ const PostDetail = () => {
     return (
         
         <React.Fragment>
+            {loading && <Spinner />}
             
             {modalOpen && <Modal
                 title={`Are you sure you want to delete ${post.postData.title.toUpperCase()}?`}
-                callAction={() => deletePost(post.postData._id, accessToken, dispatch, history)}
+                callAction={() => {deletePost(post.postData._id, accessToken, dispatch, history); setLoading(true)}}
                 actionText='Delete'
             />}
 

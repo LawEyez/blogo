@@ -4,6 +4,7 @@ import { useParams } from "react-router"
 import { ErrorContext } from "../../contexts/ErrorContext"
 
 import ChannelView from "./ChannelView"
+import Spinner from '../common/Spinner'
 
 const ChannelViewContainer = () => {
 
@@ -80,7 +81,7 @@ const ChannelViewContainer = () => {
 
     console.log('CHANNEL POSTS: ', { posts, channel })
 
-    return (channel && posts && <ChannelView channel={channel} posts={posts} />)
+    return (channel && posts ? <ChannelView channel={channel} posts={posts} /> : <Spinner />)
 }
 
 export default ChannelViewContainer

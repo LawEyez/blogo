@@ -48,8 +48,10 @@ export const createPost = async (data, accessToken, errorDispatch, history) => {
 
         if (resData.err) {
             errorDispatch({ type: 'SET_ERRORS', payload: resData.err })
+            // return { created: false, postId: null}
 
         } else {
+            // return { created: true, postId: resData.postId}
             history.push(`/posts/${resData.postId}`)
         }        
 

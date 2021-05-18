@@ -1,5 +1,6 @@
 import azureStorage from 'azure-storage'
 import intoStream from 'into-stream'
+import util from 'util'
 
 import Post from '../models/posts.model.mjs'
 import Comment from '../models/comments.model.mjs'
@@ -14,6 +15,7 @@ import _ from 'dotenv'
 _.config()
 
 const blobService = azureStorage.createBlobService()
+
 const container = 'prze-posts'
 
 export const createPost = async (req, res) => {
@@ -28,35 +30,44 @@ export const createPost = async (req, res) => {
 
         const { image, ...data } = req.body
 
+        let post
+
         if (!isEmpty(image)) {
             const blob = Date.now().toString() + '_' + image.name
             const stream = intoStream(Buffer.from(image.buffer))
 
-            console.log(image)
+            
             const streamLength = image.size
+    
 
-            blobService.createBlockBlobFromStream(container, blob, stream, streamLength, (err => {
+            blobService.createBlockBlobFromStream(container, blob, stream, streamLength, (async err => {
                 if (err) {
                     console.log(err)
                     return res.status(500).json({ err: { msg: 'Error occurred during upload', err }})
                 }
-            }))
 
-            data.poster = `https://${process.env.AZURE_STORAGE_ACCOUNT}.blob.core.windows.net/${container}/${blob}`
+                data.poster = `https://${process.env.AZURE_STORAGE_ACCOUNT}.blob.core.windows.net/${container}/${blob}`
+
+                post = await handler.create(data, Post)
+
+                !isEmpty(post) ? (
+                    res.status(200).json({ msg: 'Post created successfully!', postId: post._id })
+                ) : (
+                    res.status(500).json({err: { msg: 'Post creation failed!' }})
+                )
+
+            }))
 
         } else {
             data.poster = '/img/poster.jpg'
+            post = await handler.create(data, Post)
+
+            !isEmpty(post) ? (
+                res.status(200).json({ msg: 'Post created successfully!', postId: post._id })
+            ) : (
+                res.status(500).json({err: { msg: 'Post creation failed!' }})
+            )
         }
-
-        const post = await handler.create(data, Post)
-
-        console.log(post)
-
-        !isEmpty(post) ? (
-            res.status(200).json({ msg: 'Post created successfully!', postId: post._id })
-        ) : (
-            res.status(500).json({err: { msg: 'Post creation failed!' }})
-        )
 
     } catch (err) {
         res.status(500).json({err: { msg: 'Internal Server Error at creating new post!', err }})
@@ -225,13 +236,24 @@ export const updatePost = async (req, res) => {
 
 export const removePost = async (req, res) => {
     try {
-        const deletedPost = await handler.remove(req.params.id, Post)
+        const post = await handler.findOneById({id: req.params.id, model: Post })
+        const splitted = post.poster.split('/')
+        const blob = splitted[splitted.length - 1]
 
-        deletedPost ? (
-            res.status(200).json({ msg: 'Post deleted successfully!' })
-        ) : (
-            res.status(400).json({err: { msg: 'Failed to delete post! It may not exist.' }})
-        )
+        blobService.deleteBlobIfExists(container, blob, { deleteSnapshots: 'include' }, async (err, result) => {
+            if (err) {
+                console.log(err)
+            }
+
+            const deletedPost = await handler.remove(post._id, Post)
+    
+            deletedPost ? (
+                res.status(200).json({ msg: 'Post deleted successfully!' })
+            ) : (
+                res.status(400).json({err: { msg: 'Failed to delete post! It may not exist.' }})
+            )
+        })
+
 
     } catch (err) {
         res.status(500).json({err: { msg: 'Internal Server Error at deleting post!', err }})

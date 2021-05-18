@@ -71,12 +71,16 @@ const clean = user => {
 
 // console.log('empty array', isEmpty([{}]))
 
-const myArray = [1,2,3,4,5]
-const reducedArray = myArray.reduce((prev, curr) => prev + curr, 0) / myArray.length
-console.log(reducedArray)
+// const myArray = [1,2,3,4,5]
+// const reducedArray = myArray.reduce((prev, curr) => prev + curr, 0) / myArray.length
+// console.log(reducedArray)
 
-console.log(Object.assign({ name: 'Allen', age: 10 }, { age: 25, sex: 'male'}))
+// console.log(Object.assign({ name: 'Allen', age: 10 }, { age: 25, sex: 'male'}))
 
-const wrapped = (10, 20)
+// const wrapped = (10, 20)
 
-console.log('wrapped: ', wrapped)
+// console.log('wrapped: ', wrapped)
+
+const str = 'https://lawtest.blob.core.windows.net/prze-posts/1621331527314_tim-oun-uXCy7ixz30w-unsplash.jpg'
+const splitted = str.split('/')
+console.log(splitted[splitted.length - 1])
