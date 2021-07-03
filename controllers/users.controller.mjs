@@ -1,11 +1,28 @@
+import azureStorage from 'azure-storage'
+import intoStream from 'into-stream'
+import _ from 'dotenv'
+
 import User from '../models/users.model.mjs'
 import Sub from '../models/subs.model.mjs'
 import Post from '../models/posts.model.mjs'
-import * as handler from '../common/global.handler.mjs'
-import RegisterValidator from '../validators/register.validator.mjs'
-import { isEmpty, hash, cleaned } from '../common/global.helper.mjs'
 import Like from '../models/likes.model.mjs'
+import Bookmark from '../models/bookmarks.model.mjs'
 
+import * as handler from '../common/global.handler.mjs'
+
+import RegisterValidator from '../validators/register.validator.mjs'
+import PasswordValidator from '../validators/password.validator.mjs'
+import PatchUserValidator from '../validators/patch.user.validator.mjs'
+
+import { isEmpty, hash, cleaned } from '../common/global.helper.mjs'
+
+_.config()
+
+const blobService = azureStorage.createBlobService()
+const container = 'prze-users'
+
+
+// Create a new user
 export const createUser = async (req, res) => {
     try {
         const { errors, isValid } = RegisterValidator(req.body)
@@ -27,7 +44,6 @@ export const createUser = async (req, res) => {
 
             req.body.password = hashedPassword
             req.body.permissionLevel ? req.body.permissionLevel = 1 : null
-            // req.body.permissionLevel = parseInt(req.body.permissionLevel)
             
             const result = await handler.create(req.body, User)
 
@@ -43,6 +59,8 @@ export const createUser = async (req, res) => {
     }
 }
 
+
+// List all users
 export const list = async (req, res) => {
     try {
         const limit = req.query.limit && req.query.limit <= 100 ? parseInt(req.query.limit) : 10
@@ -69,6 +87,8 @@ export const list = async (req, res) => {
     }
 }
 
+
+// Get a single user by their user id
 export const getById = async (req, res) => {
     try {
         const user = await handler.findOneById({ id: req.params.id, model: User })
@@ -91,6 +111,7 @@ export const getById = async (req, res) => {
             model: Post
         })
         
+        
         res.status(200).json({ user: cleaned(user), subCount, postCount })
              
     } catch (err) {
@@ -98,9 +119,33 @@ export const getById = async (req, res) => {
     }
 }
 
+
+// Update a user
 export const patchById = async (req, res) => {
     try {
-        if (req.body.password) {
+        const { errors, isValid } = PatchUserValidator(req.body)
+
+        if (!isValid) {
+
+            if (req.body.changePassword) {
+                const { errors: passwordErrors, isValid: passwordValid } = PasswordValidator(req.body)
+
+                if (!passwordValid) {
+                    return res.status(400).json({ err: {...errors, ...passwordErrors} })
+                }
+            }
+            
+            return res.status(400).json({ err: {...errors} })
+        }
+
+
+        if (req.body.changePassword) {
+            const { errors: passErrors, isValid: passValid } = PasswordValidator(req.body)
+            console.log('HURRAY')
+            if (!passValid) {
+                return res.status(400).json({ err: passErrors })
+            }
+
             const { hashedPassword } = hash(null, req.body.password)
             req.body.password = hashedPassword
         }
@@ -116,26 +161,74 @@ export const patchById = async (req, res) => {
             }
         }
 
-        const result = await handler.update(req.params.id, req.body, User)
+        let result
+        const { avatar, ...data } = req.body
         
-        !isEmpty(result) ? (
-            res.status(200).json({ msg: 'User updated successfully!' })
-        ) : (
-            res.status(400).json({ msg: 'Failed to update user!. The user may not exist.' })
-        )
+        if (avatar) {
+            const user = await handler.findOneById({ id: req.params.id, model: User })
+            
+            if (user.avatar) {
+                blobService.deleteBlobIfExists(container, user.avatar, (err, result) => {
+                    if (err) {
+                        return res.status(400).json({ err: { msg: 'Error deleting previous image!', err }})
+                    }
+                })
+            }
+
+            const newBlob = req.user.userId + '_' + avatar.name
+            const stream = intoStream(Buffer.from(avatar.buffer))
+            const streamLength = avatar.size
+
+            blobService.createBlockBlobFromStream(container, newBlob, stream, streamLength, async (err, result) => {
+                if (err) {
+                    return res.status(400).json({ err: { msg: 'Error uploading new image!', err }})
+                }
+
+                data.avatar = `https://${process.env.AZURE_STORAGE_ACCOUNT}.blob.core.windows.net/${container}/${newBlob}`
+                result = await handler.update(req.params.id, data, User)
+    
+                !isEmpty(result) ? (
+                    res.status(200).json({ msg: 'User updated successfully!' })
+                ) : (
+                    res.status(400).json({ err: { msg: 'Failed to update user!. The user may not exist.' }})
+                )
+
+            })
+            
+
+        } else {
+            result = await handler.update(req.params.id, data, User)
+
+            !isEmpty(result) ? (
+                res.status(200).json({ msg: 'User updated successfully!' })
+            ) : (
+                res.status(400).json({ err: { msg: 'Failed to update user!. The user may not exist.' }})
+            )
+        }
 
     } catch (err) {
-        res.status(500).json(err)
+        res.status(500).json({err})
     }
 }
 
+
+// Remove a user
 export const removeById = async (req, res) => {
     try {
         // Delete user
         const result = await handler.remove(req.params.id, User)
 
-        if(isEmpty(result)) {
-            res.status(400).json({err: { msg: 'Failed to delete user!. The user may not exist.' }})
+        
+        if (isEmpty(result)) {
+            return res.status(400).json({err: { msg: 'Failed to delete user!. The user may not exist.' }})
+        }
+        
+        if (result.avatar) {
+            blobService.deleteBlobIfExists(container, result.avatar, err => {
+                if (err) {
+                    return res.status(400).json({ err: { msg: 'Error deleting image!', err }})
+                }
+            })
         }
 
         // Delete user's channel and subs
@@ -148,6 +241,12 @@ export const removeById = async (req, res) => {
         await handler.removeAllByQuery({
             query: { user: req.params.id },
             model: Like
+        })
+
+        // Delete user's bookmarks
+        await handler.removeAllByQuery({
+            query: { user: req.params.id },
+            model: Bookmark
         })
         
         res.status(200).json({ msg: 'User deleted successfully!' })

@@ -109,7 +109,7 @@ export const getSinglePost = async (id, userId, dispatch, errorDispatch) => {
 
         // Parse response.
         const resData = await res.json()
-        console.log(resData)
+        console.log('GET POST ACTION: ', resData)
 
         // Dispatch actions.
         if (resData.err) {

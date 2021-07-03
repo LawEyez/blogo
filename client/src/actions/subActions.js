@@ -1,7 +1,7 @@
 import { host } from '../helpers'
 
 // Create a subscription.
-export const postSub = async (data, accessToken, errorDispatch) => {
+export const postSub = async (data, accessToken, dispatch, errorDispatch) => {
     try {
 
         // Configure request options.
@@ -23,10 +23,10 @@ export const postSub = async (data, accessToken, errorDispatch) => {
 
         if (resData.err) {
             errorDispatch({ type: 'SET_ERRORS', payload: resData.err })
-        }
-        // } else {
-        //     history.push(`/posts/${resData.postId}`)
-        // }        
+        
+        } else {
+            getSubs(accessToken, dispatch)
+        }        
     } catch (err) {
         console.log(err)
     }
@@ -34,7 +34,7 @@ export const postSub = async (data, accessToken, errorDispatch) => {
 
 
 // Get current user's subscriptions
-export const getSubs = async (userId, accessToken, dispatch) => {
+export const getSubs = async (accessToken, dispatch) => {
     try {
 
         // Configure request options.
@@ -62,7 +62,7 @@ export const getSubs = async (userId, accessToken, dispatch) => {
 
 
 // Delete a subscription.
-export const deleteSub = async (id, accessToken, errorDispatch) => {
+export const deleteSub = async (id, accessToken, dispatch, errorDispatch) => {
     try {
         // Configure request options.
         const options = {
@@ -81,7 +81,9 @@ export const deleteSub = async (id, accessToken, errorDispatch) => {
         console.log('delete sub action: ', resData)
 
         if (resData.err) {
-            errorDispatch({ type: 'SET_ERROS', payload: resData.err })
+            errorDispatch({ type: 'SET_ERRORS', payload: resData.err })
+        } else {
+            getSubs(accessToken, dispatch)
         }
 
     } catch (err) {

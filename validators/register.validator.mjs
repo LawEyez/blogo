@@ -25,6 +25,7 @@ export default data => {
     if (validator.isEmpty(email)) {
         errors.email = 'Your email is required!'
     }
+
     
     if (!validator.isLength(password, { min: 5 })) {
         errors.password = 'Password should be at least 5 characters long!'

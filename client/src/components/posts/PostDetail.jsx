@@ -19,6 +19,8 @@ import CommentList from "../comments/CommentList/CommentList"
 import useClearError from "../../hooks/useClearErrors"
 import SubActionsContainer from "../subs/SubActionsContainer"
 import Social from "../common/Social"
+import IconView from "../common/IconView"
+import BookmarkControlsContainer from "../bookmarks/BookmarkControlsContainer"
 
 const PostDetail = () => {
     // Clear previous errors
@@ -43,26 +45,42 @@ const PostDetail = () => {
 
     // Fetch post when component renders.
     useEffect(() => {
-        getSinglePost(id, userId, dispatch, errorDispatch)
-
+        if (userId) {
+            getSinglePost(id, userId, dispatch, errorDispatch)
+        }
     }, [id, dispatch, errorDispatch, userId])
+
+    useEffect(() => {
+        const readCountTimeout = setTimeout(() => {
+            (async () => {
+                const res = await fetch(`http://localhost:8000/posts/reads/${id}`, {
+                    method: 'PATCH'
+                })
+
+                const resData = await res.json()
+                console.log('READ COUNT REQ: ', resData)
+            })()
+        }, 20000)
+
+        return () => clearTimeout(readCountTimeout)
+        
+    }, [id])
     
-    console.log('SINGLE POST: ', post)
     return (
         
         <React.Fragment>
             {loading && <Spinner />}
-            
+
             {modalOpen && <Modal
                 title={`Are you sure you want to delete ${post.postData.title.toUpperCase()}?`}
                 callAction={() => {deletePost(post.postData._id, accessToken, dispatch, history); setLoading(true)}}
                 actionText='Delete'
             />}
 
-            {post && !isEmpty(post) ? (
+            {!isEmpty(post) ? (
                 <div className="post-detail">
 
-                    <div className="post-header">
+                    <div className="post-header br-3">
                         <img className='poster' src={post.postData.poster ? post.postData.poster : "/img/poster.jpg"} alt=""/>
 
                         <div className='post-header-info'>
@@ -77,7 +95,11 @@ const PostDetail = () => {
                                             <span className="badge-txt">{post.postData.author.firstName} {post.postData.author.lastName}</span>
 
                                             <div className="badge-img ml-1">
-                                                <img src="/img/avatar.jpg" alt=""/>
+                                                {post.postData.author.avatar ? (
+                                                    <img src={post.postData.author.avatar} alt="" />
+                                                ) : (
+                                                    <i className="lnr lnr-user"></i>
+                                                )}
                                             </div>
                                         </div>
                                     </Link>
@@ -88,6 +110,7 @@ const PostDetail = () => {
                                 <h1>{post.postData.title}</h1>
 
                                 <div className="flx align-center">
+                                
                                     { post.postData.author._id === user.userId && (
                                         <div className="header-nav flx align-center">
                                             <Link className='flx align-center header-link' to={`/posts/edit/${post.postData._id}`}>
@@ -104,6 +127,8 @@ const PostDetail = () => {
                                             
                                         </div>
                                     )}
+
+                                    <BookmarkControlsContainer />
                                     
                                     <p className='date-txt'>{new Date(post.postData.publishDate).toDateString()}</p>
                                 </div>

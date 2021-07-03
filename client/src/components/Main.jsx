@@ -27,8 +27,17 @@ import SubListContainer from './subs/SubListContainer'
 // Channel components
 import ChannelViewContainer from './channel/ChannelViewContainer'
 
+// Settings components
+import SettingsContainer from './settings/SettingsContainer'
+
+import DashboardContainer from './dashboard/DashboardContainer'
+
+import BookmarkListContainer from './bookmarks/BookmarkListContainer'
+
 // Contexts
 import SubContextProvider from '../contexts/SubContext'
+import SearchResultContainer from './search/SearchResultContainer'
+
 
 const Main = () => {
     return(
@@ -43,9 +52,14 @@ const Main = () => {
                 <Route exact path='/register' component={Register} />
 
                 {/* Protected routes. */}
+                <PrivateRoute exact path='/search/:keyword' component={SearchResultContainer} /> 
                 <PrivateRoute exact path='/add-post' component={WritePost} />
                 <PrivateRoute exact path='/my-posts' component={UserPostsContainer} />
                 <PrivateRoute exact path='/posts/edit/:id' component={EditPost} />
+                <PrivateRoute exact path='/settings' component={SettingsContainer} />
+                <PrivateRoute exact path='/dashboard' component={DashboardContainer} />
+                <PrivateRoute exact path='/bookmarks' component={BookmarkListContainer} />
+                
 
                 <SubContextProvider>
                     <Route exact path='/channels/:channelId' component={ChannelViewContainer} />

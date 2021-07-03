@@ -19,7 +19,7 @@ const SubContextProvider = props => {
     const [state, dispatch] = useReducer(subReducer, initState)
 
     useEffect(() => {
-        getSubs(userId, accessToken, dispatch)
+        accessToken && getSubs(accessToken, dispatch)
         
     }, [dispatch, accessToken, userId])
 

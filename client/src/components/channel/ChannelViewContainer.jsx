@@ -5,6 +5,7 @@ import { ErrorContext } from "../../contexts/ErrorContext"
 
 import ChannelView from "./ChannelView"
 import Spinner from '../common/Spinner'
+import { SubContext } from "../../contexts/SubContext"
 
 const ChannelViewContainer = () => {
 
@@ -13,6 +14,7 @@ const ChannelViewContainer = () => {
 
     const [channel, setChannel] = useState(null)
     const [posts, setPosts] = useState(null)
+    const {subs} = useContext(SubContext)
 
     const {dispatch: errorDispatch} = useContext(ErrorContext)
 
@@ -69,7 +71,7 @@ const ChannelViewContainer = () => {
     // Fetch channel info on render
     useEffect(() => {
         getChannelInfo()
-    }, [getChannelInfo])
+    }, [getChannelInfo, subs])
 
 
     // Fetch channel posts on render

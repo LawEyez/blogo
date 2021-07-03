@@ -32,6 +32,11 @@ const PostSchema = new Schema({
         default: false
     },
 
+    readCount: {
+        type: Number,
+        default: 0
+    },
+
     category: {
         type: Schema.Types.ObjectId,
         ref: 'Categories',

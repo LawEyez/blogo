@@ -17,7 +17,7 @@ const Home = () => {
     // Get posts.
     useEffect(() => {
         getPosts(dispatch)
-        dispatch({ type: 'CLEAR_POST' })
+        return () => dispatch({ type: 'CLEAR_POST' })
         
     }, [dispatch])
 
@@ -30,7 +30,7 @@ const Home = () => {
 
     const categories = cats.map(cat => (
         <div className="cat">
-            <Link to='/' className='txt-xlg swatch-1 fw-800 cat-txt'><span className="red-txt">+</span> {cat} <span className="red-txt">+</span></Link>
+            <Link to='/' className='txt-lg-md swatch-1 fw-800 cat-txt'><span className="red-txt">+</span> {cat} <span className="red-txt">+</span></Link>
         </div>
     ))
 

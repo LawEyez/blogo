@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import { Redirect, useHistory } from "react-router"
+import { useHistory } from "react-router"
 import { CKEditor } from  '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
@@ -13,7 +13,7 @@ import useFormInput from "../../hooks/useFormInput"
 
 import ErrorTag from '../common/ErrorTag'
 import Spinner from '../common/Spinner'
-import Modal from "../common/Modal"
+
 import { isEmpty } from "../../helpers"
 
 const WritePost = () => {
@@ -27,7 +27,6 @@ const WritePost = () => {
     const [image, setImage] = useState(null)
     const [preview, setPreview] = useState(null)
     const [loading, setLoading] = useState(false)
-    // const [response, setResponse] = useState({ created: false })
     const [submitted, setSubmitted] = useState(false)
 
     const { accessToken } =  useContext(AuthContext)
@@ -36,6 +35,7 @@ const WritePost = () => {
     const history = useHistory()
 
     const handlePreview = (file) => {
+
         setLoading(true)
 
         const reader = new FileReader()
@@ -49,7 +49,10 @@ const WritePost = () => {
     }
 
     const handleFileChange = e => {
+        console.log(e.target.files)
         const file = e.target.files[0]
+
+        if (!file) return;
 
         handlePreview(file)
 
@@ -80,6 +83,7 @@ const WritePost = () => {
         createPost(postData, accessToken, dispatch, history)
     }
 
+    console.log('IMAGE: ', image)
 
     return (
         
@@ -120,7 +124,7 @@ const WritePost = () => {
 
                         <div className="g-col bg-swatch-4 grid img-preview">
                             {preview ? (
-                                <img className="grid-center" src={preview.src} alt="" />
+                                loading ? <Spinner /> : <img className="grid-center" src={preview.src} alt="" />
                             ) : (
                                 loading ? <Spinner /> : <h1 className="fw-200 grid-center txt-lg swatch-7">No preview to show</h1>
                             )}
@@ -137,6 +141,7 @@ const WritePost = () => {
                     <CKEditor
                         editor={ClassicEditor}
                         data={body}
+                        
                         onChange={(e, editor) => {
                             setBody(editor.getData())
                         }}

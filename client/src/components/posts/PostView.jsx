@@ -38,7 +38,7 @@ const PostView = ({ post }) => {
     )
 
     return(
-        <div className="card-3">
+        <div className="card-3 br-3">
             <img src={post.poster ? post.poster : "/img/poster.jpg"} alt="" className="card-3-img" />
 
             <div className="card-3-body">

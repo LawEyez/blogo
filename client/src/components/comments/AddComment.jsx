@@ -8,11 +8,13 @@ import { ErrorContext } from '../../contexts/ErrorContext'
 
 import { postComment } from "../../actions/commentActions"
 import { Link } from "react-router-dom"
+import { UserContext } from "../../contexts/UserContext"
 
 const AddComment = ({ postId, commentId }) => {
 
     const [body, setBody] = useState('')
-    const { user, accessToken, isAuthenticated } = useContext(AuthContext)
+    const { user: authUser, accessToken, isAuthenticated } = useContext(AuthContext)
+    const {user} = useContext(UserContext)
     const {errors, dispatch: errorDispatch} = useContext(ErrorContext)
 
     const handleSubmit = e => {
@@ -20,7 +22,7 @@ const AddComment = ({ postId, commentId }) => {
         
         const data = {
             body,
-            author: user.userId
+            author: authUser.userId
         }
 
         if (postId) {
@@ -37,7 +39,7 @@ const AddComment = ({ postId, commentId }) => {
 
     return (
         <div className="comment-form flx align-start justify-center mt-3">
-            <Badge />
+            <Badge img={user.avatar} />
 
             <form onSubmit={handleSubmit} className="ml-1 flx flx-col">
                 <div className="form-group">

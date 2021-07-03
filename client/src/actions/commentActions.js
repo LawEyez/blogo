@@ -30,6 +30,7 @@ export const postComment = async (data, accessToken, errorDispatch) => {
     }
 }
 
+
 // Allow comment.
 export const allowComment = async (id, accessToken, errorDispatch) => {
     try {
@@ -65,6 +66,7 @@ export const allowComment = async (id, accessToken, errorDispatch) => {
         console.log(err)
     }
 }
+
 
 // Delete comment.
 export const deleteComment = async (id, accessToken, errorDispatch) => {

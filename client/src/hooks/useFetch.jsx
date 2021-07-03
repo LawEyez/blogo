@@ -4,11 +4,11 @@ import { isEmpty } from "../helpers"
 const useFetch = (args) => {
     const [data, setData] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
-    const [error, setError] = useState(null)
+    const [errors, setErrors] = useState(null)
     
     // Set defaults
     args.accessToken = !isEmpty(args.accessToken) ? args.accessToken : ''
-    args.body = !isEmpty(args.body) ? JSON.stringify(args.body) : '' 
+    args.body = !isEmpty(args.body) ? JSON.stringify(args.body) : null 
 
     const { url } = args
     const { method, accessToken, body } = args
@@ -47,7 +47,7 @@ const useFetch = (args) => {
             .then(res => res.json())
             .then(data => {
                 if (data.err) {
-                    setError(data.err)
+                    setErrors(data.err)
 
                 } else {
                     setData(data)
@@ -56,13 +56,13 @@ const useFetch = (args) => {
                 setIsLoading(false)
             })
             .catch(err => {
-                setError(err)
+                setErrors(err)
                 setIsLoading(false)
             })
             
     }, [url, method, accessToken, body])
 
-    return { data, isLoading, error }
+    return { data, isLoading, errors }
 }
 
 export default useFetch

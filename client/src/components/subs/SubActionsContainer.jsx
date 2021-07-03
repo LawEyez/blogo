@@ -16,6 +16,7 @@ const SubActionsContainer = ({ channel }) => {
 
     const {user, accessToken, isAuthenticated} = useContext(AuthContext)
     const {dispatch: errorDispatch} = useContext(ErrorContext)
+    const {dispatch} = useContext(SubContext)
 
     // Check if sub exists
     let hasSub
@@ -43,10 +44,10 @@ const SubActionsContainer = ({ channel }) => {
                 channel
             }
     
-            postSub(data, accessToken, errorDispatch)
+            postSub(data, accessToken, dispatch, errorDispatch)
 
         } else {
-            deleteSub(sub._id, accessToken, errorDispatch)
+            deleteSub(sub._id, accessToken, dispatch, errorDispatch)
         }
     }
 

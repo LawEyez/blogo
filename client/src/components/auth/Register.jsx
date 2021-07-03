@@ -40,7 +40,8 @@ const Register = () => {
             firstName: firstName.value,
             lastName: lastName.value,
             email: email.value,
-            password: password.value
+            password: password.value,
+            passwordConfirm: passwordConfirm.value
         }
 
         register(data, errorDispatch, history)

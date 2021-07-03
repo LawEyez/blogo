@@ -1,16 +1,21 @@
+import IconView from "../common/IconView"
 import Rating from "../common/Rating"
 import Social from "../common/Social"
 import UserPosts from "../posts/PostGrid"
 import SubActionsContainer from "../subs/SubActionsContainer"
 
-const ChannelView = ({ channel, posts, hasSub }) => {
+const ChannelView = ({ channel, posts }) => {
     return (
         <div className="flx flx-col">
-            <div className="pd-3 mb-5 bg-swatch-4 flx align-center justify-evenly">
+            <div className="pd-3 mb-5 bg-swatch-4 flx align-center justify-evenly br-3">
                 <div className="flx align-center">
-                    <img src="/img/avatar.jpg" alt="" className="round-img mr-3" />
+                    {channel.user.avatar ? (
+                        <img src={channel.user.avatar} alt="" className="round-img" />
+                    ) : (
+                        <IconView icon='user' />
+                    )}
 
-                    <div className="flx flx-col">
+                    <div className="flx flx-col ml-3">
                         <h1 className="txt-capitalize mb-1">{channel.user.firstName} {channel.user.lastName}</h1>
                         <Rating />
                         <br />

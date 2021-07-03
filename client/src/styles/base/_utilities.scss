@@ -34,12 +34,20 @@
     justify-content: center;
 }
 
+.justify-end {
+    justify-content: flex-end;
+}
+
 .justify-between {
     justify-content: space-between;
 }
 
 .justify-evenly {
     justify-content: space-evenly;
+}
+
+.flx-wrap {
+    flex-wrap: wrap;
 }
 
 /*************************************** MARGIN UTILITIES *************************************/
@@ -60,6 +68,10 @@
     margin-top: 4rem;
 }
 
+
+.mb-h {
+    margin-bottom: .5rem;
+}
 
 .mb-1 {
     margin-bottom: 1rem;
@@ -90,6 +102,18 @@
     margin-left: 2rem;
 }
 
+.ml-3 {
+    margin-left: 3rem;
+}
+
+.ml-4 {
+    margin-left: 4rem;
+}
+
+.ml-5 {
+    margin-left: 5rem;
+}
+
 
 .mr-h {
     margin-right: .5rem;
@@ -105,6 +129,10 @@
 
 .mr-3 {
     margin-right: 3rem;
+}
+
+.mr-4 {
+    margin-right: 4rem;
 }
 
 .mh-auto {
@@ -123,6 +151,12 @@
 
 .pd-3 {
     padding: 3rem;
+}
+.pd-4 {
+    padding: 4rem;
+}
+.pd-5 {
+    padding: 5rem;
 }
 
 /*************************************** FONT WEIGHT UTILITIES *************************************/
@@ -181,6 +215,14 @@
     color: $swatch_3;
 }
 
+.swatch-4 {
+    color: $swatch_4;
+}
+
+.swatch-5 {
+    color: $swatch_5;
+}
+
 .swatch-7 {
     color: $swatch_7;
 }
@@ -192,12 +234,24 @@
     font-size: 1rem;
 }
 
+.txt-md-sm {
+    font-size: 1.2rem;
+}
+
 .txt-md {
     font-size: 1.5rem;
 }
 
+.txt-md-lg {
+    font-size: 2.2rem;
+}
+
 .txt-lg {
     font-size: 3rem;
+}
+
+.txt-lg-md {
+    font-size: 4.5rem;
 }
 
 .txt-xlg {
@@ -237,8 +291,21 @@
 .br-1 {
     border-radius: 1rem;
 }
+
 .br-2 {
     border-radius: 2rem;
+}
+
+.br-3 {
+    border-radius: 3rem;
+}
+
+.bd-round {
+    border: solid 1px $swatch_3;
+    border-radius: 100%;
+    width: 12rem;
+    height: 12rem;
+    text-align: center;
 }
 
 /*************************************** BG UTILITIES *************************************/
@@ -247,12 +314,36 @@
     background-color: red;
 }
 
+.bg-swatch-1 {
+    background-color: $swatch_1;
+}
+
+.bg-swatch-2 {
+    background-color: $swatch_2;
+}
+
 .bg-swatch-3 {
     background-color: $swatch_3;
 }
 
 .bg-swatch-4 {
     background-color: $swatch_4;
+}
+
+.bg-swatch-5 {
+    background-color: $swatch_5;
+}
+
+.bg-swatch-6 {
+    background-color: $swatch_6;
+}
+
+.bg-swatch-7 {
+    background-color: $swatch_7;
+}
+
+.bg-swatch-8 {
+    background-color: $swatch_8 !important;
 }
 
 /*************************************** GRID UTILITIES *************************************/
@@ -276,6 +367,10 @@
 
 .grid-col-5 {
     grid-template-columns: repeat(5, 1fr);
+
+    @media screen and (max-width: 500px) {
+        grid-template-columns: 1fr;
+    }
 }
 
 .gap {
@@ -295,6 +390,20 @@
     justify-self: center;
 }
 
+
+.col-span-2 {
+    grid-column: span 2;
+}
+
+.col-span-3 {
+    grid-column: span 3;
+}
+
+.row-span-2 {
+    grid-row: span 2;
+}
+
+
 /*************************************** IMAGE UTILITIES *************************************/
 
 .round-img {
@@ -313,4 +422,20 @@
 
 .pos-rel {
     position: relative;
+}
+
+
+/********************************** ICON UTILS ************************************/
+
+.icon-display {
+    height: 12rem;
+    width: 12rem;
+    border-radius: 100%;
+    border: solid 1px rgba($swatch_1, .1);
+}
+
+/********************************** WIDTH UTILS ************************************/
+
+.max-width-content {
+    max-width: max-content;
 }

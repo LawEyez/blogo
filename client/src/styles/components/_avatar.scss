@@ -1,0 +1,45 @@
+.avatar-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20rem;
+    height: 20rem;
+    border-radius: 100%;
+    border: solid 5px rgba($color: $swatch_6, $alpha: .2);
+    // overflow: hidden;
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.avatar-wrapper i {
+    font-size: 10rem;
+    color: rgba($color: $swatch_7, $alpha: .5);
+}
+
+.avatar-wrapper label {
+    position: absolute;
+    bottom: 0;
+    right: -1rem;
+    
+}
+
+.avatar-wrapper label.btn{
+    border-radius: 100%;
+    padding: 0;
+    height: 5rem;
+    width: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-wrapper label i{
+    font-size: 1.8rem;
+    color: $swatch_1;
+}

@@ -1,10 +1,10 @@
 import azureStorage from 'azure-storage'
 import intoStream from 'into-stream'
-import util from 'util'
 
 import Post from '../models/posts.model.mjs'
 import Comment from '../models/comments.model.mjs'
 import Like from '../models/likes.model.mjs'
+import Bookmark from '../models/bookmarks.model.mjs'
 
 import * as handler from '../common/global.handler.mjs'
 import { isEmpty } from '../common/global.helper.mjs'
@@ -15,9 +15,10 @@ import _ from 'dotenv'
 _.config()
 
 const blobService = azureStorage.createBlobService()
-
 const container = 'prze-posts'
 
+
+// Create a new post
 export const createPost = async (req, res) => {
     try {
         const {errors, isValid} = CreatePostValidator(req.body)
@@ -35,11 +36,8 @@ export const createPost = async (req, res) => {
         if (!isEmpty(image)) {
             const blob = Date.now().toString() + '_' + image.name
             const stream = intoStream(Buffer.from(image.buffer))
-
-            
             const streamLength = image.size
     
-
             blobService.createBlockBlobFromStream(container, blob, stream, streamLength, (async err => {
                 if (err) {
                     console.log(err)
@@ -75,6 +73,7 @@ export const createPost = async (req, res) => {
 }
 
 
+// Get all posts
 export const list = async (req, res) => {
     try {
         const limit = req.query.limit && req.query.limit <= 100 ? parseInt(req.query.limit) : 10
@@ -174,7 +173,7 @@ export const getPost = async (req, res) => {
             model: Comment,
             populate: {
                 field: 'author',
-                sub_fields: ['firstName', 'lastName']
+                sub_fields: ['firstName', 'lastName', 'avatar']
             }
         })
 
@@ -194,6 +193,14 @@ export const getPost = async (req, res) => {
             model: Like
         })
 
+        const bookmark = await handler.findOneByQuery({
+            query: {
+                post: req.params.id,
+                user: req.query.userId
+            },
+            model: Bookmark
+        })
+
 
         if (req.query.userId !== post.author._id.toString()) {
             console.log(req.query.userId)
@@ -201,9 +208,16 @@ export const getPost = async (req, res) => {
             comments = comments.filter(comment => comment.isAllowed === true)
         }
 
-        console.log('SINGLE POST: ', post)
+        console.log('SINGLE POST: ', {postData: post, comments, likes: likeCount, dislikes: dislikeCount, isBookmarked: !isEmpty(bookmark)})
 
-        res.status(200).json({postData: post, comments, likes: likeCount, dislikes: dislikeCount})
+        res.status(200).json({
+            postData: post, 
+            comments, 
+            likes: likeCount, 
+            dislikes: dislikeCount,
+            isBookmarked: !isEmpty(bookmark),
+            bookmark
+        })
         
 
     } catch (err) {
@@ -212,6 +226,7 @@ export const getPost = async (req, res) => {
 }
 
 
+// Update post
 export const updatePost = async (req, res) => {
     try {
         const {errors, isValid} = CreatePostValidator(req.body)
@@ -220,13 +235,49 @@ export const updatePost = async (req, res) => {
             return res.status(400).json({err: errors})
         }
 
-        const updatedPost = await handler.update(req.params.id, req.body, Post)
+        let updatedPost = null
 
-        updatedPost ? (
-            res.status(200).json({ msg: 'Post updated successfully!', updatedPost })
-        ) : (
-            res.status(400).json({err: { msg: 'Failed to update post! It may not exist.' }})
-        )
+        if (req.body.image) {
+            const post = await handler.findOneById({id: req.params.id, model: Post })
+            const splitted = post.poster.split('/')
+            const blob = splitted[splitted.length - 1]
+            const {image, ...data} = req.body
+
+            blobService.deleteBlobIfExists(container, blob, (err, result) => {
+                if (err) {
+                    return res.status(400).json({ err: { msg: "Error deleting poster!", err }})
+                }
+
+                const newBlob = Date.now().toString() + '_' + image.name
+                const stream = intoStream(Buffer.from(image.buffer))
+                const streamLength = image.size
+
+                blobService.createBlockBlobFromStream(container, newBlob, stream, streamLength, async err => {
+                    if (err) {
+                        return res.status(400).json({ err: { msg: 'Error uploading poster image!', err }})
+                    }
+
+                    data.poster = `https://${process.env.AZURE_STORAGE_ACCOUNT}.blob.core.windows.net/${container}/${newBlob}`
+
+                    updatedPost = await handler.update(post._id, data, Post)
+
+                    updatedPost ? (
+                        res.status(200).json({ msg: 'Post updated successfully!', updatedPost })
+                    ) : (
+                        res.status(400).json({err: { msg: 'Failed to update post! It may not exist.' }})
+                    )
+                })
+            })
+
+        } else {
+            updatedPost = await handler.update(req.params.id, req.body, Post)
+
+            updatedPost ? (
+                res.status(200).json({ msg: 'Post updated successfully!', updatedPost })
+            ) : (
+                res.status(400).json({err: { msg: 'Failed to update post! It may not exist.' }})
+            )
+        }
 
     } catch (err) {
         res.status(500).json({err: { msg: 'Internal Server Error at patching post!', err }})
@@ -234,28 +285,67 @@ export const updatePost = async (req, res) => {
 }
 
 
+// Delete a post
 export const removePost = async (req, res) => {
     try {
         const post = await handler.findOneById({id: req.params.id, model: Post })
-        const splitted = post.poster.split('/')
-        const blob = splitted[splitted.length - 1]
+        
+        if (post.poster) {
+            const splitted = post.poster.split('/')
+            const blob = splitted[splitted.length - 1]
 
-        blobService.deleteBlobIfExists(container, blob, { deleteSnapshots: 'include' }, async (err, result) => {
-            if (err) {
-                console.log(err)
-            }
+            blobService.deleteBlobIfExists(container, blob, { deleteSnapshots: 'include' }, async (err, result) => {
+                if (err) {
+                    console.log(err)
+                }
 
+                const deletedPost = await handler.remove(post._id, Post)
+                await handler.removeAllByQuery({
+                    query: {
+                        post: post._id
+                    },
+                    model: Comment
+                })
+        
+                deletedPost ? (
+                    res.status(200).json({ msg: 'Post deleted successfully!' })
+                ) : (
+                    res.status(400).json({err: { msg: 'Failed to delete post! It may not exist.' }})
+                )
+            })
+            
+        } else {
             const deletedPost = await handler.remove(post._id, Post)
+            await handler.removeAllByQuery({
+                query: {
+                    post: post._id
+                },
+                model: Comment
+            })
     
             deletedPost ? (
                 res.status(200).json({ msg: 'Post deleted successfully!' })
             ) : (
                 res.status(400).json({err: { msg: 'Failed to delete post! It may not exist.' }})
             )
-        })
+
+        }
 
 
     } catch (err) {
         res.status(500).json({err: { msg: 'Internal Server Error at deleting post!', err }})
+    }
+}
+
+// Increase post count
+export const increasePostReadCount = async (req, res) => {
+    try {
+        const post = await handler.findOneById({ id: req.params.id, model: Post })
+        const readCount = post.readCount + 1
+        await handler.update(req.params.id, { readCount }, Post)
+
+        res.status(200).json({ msg: 'Post read increased successfully!'})
+    } catch (err) {
+        res.status(500).json({ err: { msg: 'Internal Server Error at increasing post read count!', err }})
     }
 }

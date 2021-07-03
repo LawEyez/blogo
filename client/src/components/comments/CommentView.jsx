@@ -1,5 +1,7 @@
 import React, { useContext } from "react"
+
 import { allowComment, deleteComment, editComment } from "../../actions/commentActions"
+
 import { AuthContext } from "../../contexts/AuthContext"
 import { ErrorContext } from "../../contexts/ErrorContext"
 import { ModalContext } from "../../contexts/ModalContext"
@@ -8,8 +10,10 @@ import { PostContext } from "../../contexts/PostContext"
 import Badge from "../common/Badge"
 import Modal from "../common/Modal"
 import ErrorTag from "../common/ErrorTag"
-import useFormInput from "../../hooks/useFormInput"
+
 import { isEmpty } from "../../helpers"
+
+import useFormInput from "../../hooks/useFormInput"
 
 const CommentView = ({ comment }) => {
     
@@ -17,7 +21,6 @@ const CommentView = ({ comment }) => {
     const {user, accessToken} = useContext(AuthContext)
     const {errors, dispatch: errorDispatch} = useContext(ErrorContext)
     const {modalOpen, setModalOpen, edit, setEdit} = useContext(ModalContext)
-    
     
     const commentBody = useFormInput(comment.body)
 
@@ -64,8 +67,9 @@ const CommentView = ({ comment }) => {
                 actionText='OK'
             />}
 
+            {comment &&
             <div className="comment-view flx align-start">
-                <Badge />
+                <Badge img={comment.author.avatar} />
                 <div className="comment-content flx align-center justify-between">
                     <div className="flx flx-col ml-1">
                         <span className="badge-txt">{comment.author.firstName} {comment.author.lastName}</span>
@@ -83,7 +87,7 @@ const CommentView = ({ comment }) => {
                         {(post.postData.author._id === user.userId || comment.author._id === user.userId) && <button onClick={handleDeleteComment} className="btn btn-swatch6-outline">Delete</button>}
                     </div>
                 </div>
-            </div>
+            </div>}
         </React.Fragment>
     )
 }

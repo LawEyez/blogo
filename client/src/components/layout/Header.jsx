@@ -1,17 +1,29 @@
-import React, { useContext } from "react"
-import { Link } from "react-router-dom"
+import React, { useContext, useState } from "react"
+import { Link, useHistory } from "react-router-dom"
 import { AuthContext } from "../../contexts/AuthContext"
+import { UserContext } from "../../contexts/UserContext"
 
 const Header = () => {
-    const { user, isAuthenticated } = useContext(AuthContext)
+    const { isAuthenticated } = useContext(AuthContext)
+    const { user } = useContext(UserContext)
+    const history = useHistory()
+
+    const [keyword, setKeyword] = useState('')
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault()
+
+        history.push(`/search/${keyword}`)
+    }
 
     return (
         <div className="header">
             {isAuthenticated ? (
                 <React.Fragment>
-                    <form className="search-form flx align-center">
+                    <form onSubmit={handleSearchSubmit} className="search-form flx align-center">
                         <div className="form-group">
-                            <input className='' type="text" placeholder='Search'/>
+                            <input className='' type="text" placeholder='Search' value={keyword} onChange={e => setKeyword(e.target.value)} />
+
                             <button type='submit' className='btn ml-1'>
                                 <i className="lnr lnr-magnifier"></i>
                             </button>
@@ -33,10 +45,14 @@ const Header = () => {
                         </div>
 
                         <div className="badge flx align-center">
-                            <span className="badge-txt">{user.name}</span>
+                            <span className="badge-txt">{user.firstName} {user.lastName}</span>
 
                             <div className="badge-img ml-1">
-                                <img src="/img/avatar.jpg" alt=""/>
+                                {user.avatar ? (
+                                    <img src={user.avatar} alt=""/>
+                                ) : (
+                                    <i className="lnr lnr-user"></i>
+                                )}
                             </div>
                         </div>
                     </div>  

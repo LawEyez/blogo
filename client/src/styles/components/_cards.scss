@@ -148,3 +148,43 @@
 
 
 }
+
+/************************ DATA DISPLAY CARD ************************************/
+
+.data-display {
+    min-width: 25rem;
+    max-width: max-content;
+    background: rgba($swatch_5, .7);
+    padding: 1.2rem 2rem;
+    border-radius: 1rem;
+}
+
+/************************ ICON VIEW CARD ************************************/
+
+.icon-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 12rem;
+    width: 12rem;
+    border-radius: 100%;
+    border: solid 1px rgba($swatch_1, .1);
+    font-size: 5rem;
+}
+
+/************************ DASH CARD ************************************/
+.dash-card {
+    display: block;
+    padding: 2rem;
+    border-radius: 2rem;
+    background: $swatch_8;
+    // width: max-content;
+    min-width: 20rem;
+}
+
+
+/************************ PIN CARD ************************************/
+
+.pin {
+    min-width: 8rem;
+}

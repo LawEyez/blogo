@@ -43,7 +43,7 @@ export const list = async (req, res) => {
             populate: {
                 field: ['author', 'post'],
                 sub_fields: [
-                    ['firstName', 'lastName'],
+                    ['firstName', 'lastName', 'avatar'],
                     ['title']
                 ]
             }

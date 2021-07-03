@@ -28,6 +28,10 @@ export default app => {
         PostsController.updatePost
     ])
     
+    app.patch('/posts/reads/:id', [
+        PostsController.increasePostReadCount
+    ])
+    
     app.delete('/posts/:id', [
         validTokenNeeded,
         onlyAuthorOrAdminAllowed(Post),

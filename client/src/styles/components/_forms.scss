@@ -68,7 +68,7 @@ form {
 
     input {
         margin: 0;
-
+        border-radius: 1.5rem;
 
         @media screen and (max-width: $mobile-md) {
             border-color: rgba($swatch_6, .3);

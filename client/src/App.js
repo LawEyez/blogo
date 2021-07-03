@@ -3,9 +3,10 @@ import { BrowserRouter } from 'react-router-dom'
 import AuthContextProvider from './contexts/AuthContext'
 import ErrorContextProvider from './contexts/ErrorContext'
 import PostContextProvider from './contexts/PostContext'
+import ModalContextProvider from './contexts/ModalContext'
+import UserContextProvider from './contexts/UserContext'
 
 import Main from './components/Main'
-import ModalContextProvider from './contexts/ModalContext'
 
 const App = () => {
     return(
@@ -14,7 +15,9 @@ const App = () => {
                 <ErrorContextProvider>
                     <PostContextProvider>
                         <ModalContextProvider>
-                            <Main />
+                            <UserContextProvider>
+                                <Main />
+                            </UserContextProvider>
                         </ModalContextProvider>
                     </PostContextProvider>
                 </ErrorContextProvider>

@@ -16,7 +16,6 @@ const validateToken = (token) => {
     }
 }
 
-validateToken()
 
 const AuthContextProvider = props => {
 
@@ -30,7 +29,7 @@ const AuthContextProvider = props => {
     const [state, dispatch] = useReducer(authReducer, initState)
 
     useEffect(() => {
-
+        console.log('BUKUYAKA')
         // Check if token exists.
         if (!isEmpty(accessToken)) {
             

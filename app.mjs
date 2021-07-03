@@ -10,6 +10,8 @@ import CategoriesRouter from './routes/categories.router.mjs'
 import CommentsRouter from './routes/comments.router.mjs'
 import SubsRouter from './routes/subs.router.mjs'
 import LikesRouter from './routes/likes.router.mjs'
+import BookmarksRouter from './routes/bookmarks.router.mjs'
+import DashboardRouter from './routes/dashboard.router.mjs'
 
 _.config()
 
@@ -33,6 +35,7 @@ app.use((req, res, next) => {
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
+
 AuthRouter(app)
 UsersRouter(app)
 PostsRouter(app)
@@ -40,5 +43,7 @@ CategoriesRouter(app)
 CommentsRouter(app)
 SubsRouter(app)
 LikesRouter(app)
+BookmarksRouter(app)
+DashboardRouter(app)
 
 app.listen(port, () => console.log(`Server running on port ${port}...`))
